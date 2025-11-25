@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da7cf973-4a82-45e8-a6c6-3970a8ae81c5" name="Changes" comment="Cleaned up more junk, did lots of stuff and added actual functionality.">
+    <list default="true" id="da7cf973-4a82-45e8-a6c6-3970a8ae81c5" name="Changes" comment="Did some build stuff. First push!">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/BattleRoyaleImplementation.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/PlayerJoinEvent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/WelcomeCommand.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,6 +63,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;D3monSlayr&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/D3monSlayr/RoyaleCore&quot;,
+    &quot;accountId&quot;: &quot;34efe9ba-2a7e-4d72-8bee-7fab4cbd5bbd&quot;
+  }
+}</component>
   <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\hp\.gradle\wrapper\dists\gradle-9.2.0-bin\11i5gvueggl8a5cioxuftxrik\gradle-9.2.0" javaHome="C:\Users\hp\AppData\Local\Programs\Eclipse Adoptium\jdk-25.0.1.8-hotspot" gradleVersion="9.2.0" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
@@ -80,6 +90,7 @@
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Gradle.Build RoyaleCore.executor": "Run",
     "Gradle.RoyaleCore [build].executor": "Run",
+    "Gradle.RoyaleCore [compileJava].executor": "Run",
     "Gradle.RoyaleCore [publish].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -109,7 +120,13 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.RoyaleCore [publish]">
+  <component name="RunAnythingCache">
+    <option name="myCommands">
+      <command value="gradle compileJava" />
+      <command value="gradle compileJava --stacktrace" />
+    </option>
+  </component>
+  <component name="RunManager" selected="Gradle.RoyaleCore [build]">
     <configuration name="RoyaleCore [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -122,6 +139,31 @@
         <option name="taskNames">
           <list>
             <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="RoyaleCore [compileJava]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="compileJava" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -162,8 +204,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.RoyaleCore [publish]" />
         <item itemvalue="Gradle.RoyaleCore [build]" />
+        <item itemvalue="Gradle.RoyaleCore [compileJava]" />
+        <item itemvalue="Gradle.RoyaleCore [publish]" />
       </list>
     </recent_temporary>
   </component>
@@ -183,7 +226,8 @@
       <option name="presentableId" value="Default" />
       <updated>1763990789962</updated>
       <workItem from="1763990791150" duration="12520000" />
-      <workItem from="1764055125566" duration="11955000" />
+      <workItem from="1764055125566" duration="12582000" />
+      <workItem from="1764070259796" duration="381000" />
     </task>
     <task id="LOCAL-00001" summary="Done some setup. Ready to start!">
       <option name="closed" value="true" />
@@ -217,7 +261,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764065014829</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Did some build stuff. First push!">
+      <option name="closed" value="true" />
+      <created>1764068544860</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1764068544860</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,6 +291,7 @@
     <MESSAGE value="Even more setup. Now I have a simple project structure" />
     <MESSAGE value="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics." />
     <MESSAGE value="Cleaned up more junk, did lots of stuff and added actual functionality." />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up more junk, did lots of stuff and added actual functionality." />
+    <MESSAGE value="Did some build stuff. First push!" />
+    <option name="LAST_COMMIT_MESSAGE" value="Did some build stuff. First push!" />
   </component>
 </project>
