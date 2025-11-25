@@ -4,19 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da7cf973-4a82-45e8-a6c6-3970a8ae81c5" name="Changes" comment="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics.">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/br/BattleRoyale.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/item/BattleRoyaleItem.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/module/Module.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registrar/CommandRegistrar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registrar/ItemRegistrar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registrar/ListenerRegistrar.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/settings/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registries/CommandHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registries/EventHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/scenario/Scenario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/scenario/Scenario.java" afterDir="false" />
+    <list default="true" id="da7cf973-4a82-45e8-a6c6-3970a8ae81c5" name="Changes" comment="Cleaned up more junk, did lots of stuff and added actual functionality.">
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/BattleRoyaleImplementation.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/PlayerJoinEvent.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/WelcomeCommand.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,6 +38,12 @@
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="RoyaleCore" type="f1a62948:ProjectNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="RoyaleCore" type="f1a62948:ProjectNode" />
+                <item name="Tasks" type="e4a08cd1:TasksNode" />
+                <item name="publishing" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -80,6 +79,8 @@
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
     "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "Gradle.Build RoyaleCore.executor": "Run",
+    "Gradle.RoyaleCore [build].executor": "Run",
+    "Gradle.RoyaleCore [publish].executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -108,6 +109,64 @@
       <recent name="" />
     </key>
   </component>
+  <component name="RunManager" selected="Gradle.RoyaleCore [publish]">
+    <configuration name="RoyaleCore [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="build" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="RoyaleCore [publish]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="publish" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <ExternalSystemDebugDisabled>false</ExternalSystemDebugDisabled>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <GradleProfilingDisabled>false</GradleProfilingDisabled>
+      <GradleCoverageDisabled>false</GradleCoverageDisabled>
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.RoyaleCore [publish]" />
+        <item itemvalue="Gradle.RoyaleCore [build]" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
@@ -124,7 +183,7 @@
       <option name="presentableId" value="Default" />
       <updated>1763990789962</updated>
       <workItem from="1763990791150" duration="12520000" />
-      <workItem from="1764055125566" duration="9588000" />
+      <workItem from="1764055125566" duration="11955000" />
     </task>
     <task id="LOCAL-00001" summary="Done some setup. Ready to start!">
       <option name="closed" value="true" />
@@ -150,7 +209,15 @@
       <option name="project" value="LOCAL" />
       <updated>1764003432957</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Cleaned up more junk, did lots of stuff and added actual functionality.">
+      <option name="closed" value="true" />
+      <created>1764065014829</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1764065014829</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,6 +238,7 @@
     <MESSAGE value="Done some setup. Ready to start!" />
     <MESSAGE value="Even more setup. Now I have a simple project structure" />
     <MESSAGE value="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics." />
-    <option name="LAST_COMMIT_MESSAGE" value="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics." />
+    <MESSAGE value="Cleaned up more junk, did lots of stuff and added actual functionality." />
+    <option name="LAST_COMMIT_MESSAGE" value="Cleaned up more junk, did lots of stuff and added actual functionality." />
   </component>
 </project>
