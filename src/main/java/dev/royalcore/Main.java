@@ -1,7 +1,9 @@
 package dev.royalcore;
 
-import dev.royalcore.api.registries.CommandHandler;
-import dev.royalcore.api.registries.EventHandler;
+import dev.royalcore.api.registrar.CommandRegistrar;
+import dev.royalcore.api.registrar.ItemRegistrar;
+import dev.royalcore.api.registrar.ListenerRegistrar;
+import dev.royalcore.internal.BattleRoyaleEngine;
 import lombok.Getter;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -14,8 +16,10 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         plugin = this;
 
-        EventHandler.getEventHandler().finish();
-        CommandHandler.getCommandHandler().finish();
+        ListenerRegistrar.getListenerRegistrar().finish();
+        CommandRegistrar.getCommandRegistrar().finish();
+        ItemRegistrar.getItemRegistrar().finish();
+        BattleRoyaleEngine.getBattleRoyaleEngine().finish();
 
     }
 

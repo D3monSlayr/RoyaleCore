@@ -4,15 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="da7cf973-4a82-45e8-a6c6-3970a8ae81c5" name="Changes" comment="Even more setup. Now I have a simple project structure">
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registries/CommandHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registries/EventHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/scenario/Scenario.java" afterDir="false" />
+    <list default="true" id="da7cf973-4a82-45e8-a6c6-3970a8ae81c5" name="Changes" comment="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics.">
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/br/BattleRoyale.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/item/BattleRoyaleItem.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/module/Module.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registrar/CommandRegistrar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registrar/ItemRegistrar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registrar/ListenerRegistrar.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/settings/Settings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/EventRegistry.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/Module.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registries/CommandHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/registries/EventHandler.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/scenario/Scenario.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/dev/royalcore/api/scenario/Scenario.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,9 +57,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="module-info" />
-        <option value="AnnotationType" />
         <option value="Interface" />
         <option value="Class" />
+        <option value="AnnotationType" />
       </list>
     </option>
   </component>
@@ -63,9 +67,9 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GradleScriptDefinitionsStorage" workingDir="$PROJECT_DIR$" gradleHome="C:\Users\hp\.gradle\wrapper\dists\gradle-9.2.0-bin\11i5gvueggl8a5cioxuftxrik\gradle-9.2.0" javaHome="C:\Users\hp\AppData\Local\Programs\Eclipse Adoptium\jdk-25.0.1.8-hotspot" gradleVersion="9.2.0" />
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 5
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
   <component name="ProjectId" id="35vVyqiqIgr6uqlKvjXZfyuMwp3" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -78,6 +82,8 @@
     "Gradle.Build RoyaleCore.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
@@ -93,11 +99,20 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="dev.royalcore.api.scenario" />
+      <recent name="dev.royalcore.api.settings" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+  </component>
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28086.51" />
-        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28086.51" />
+        <option value="bundled-jdk-30f59d01ecdd-cffe25b9f5b3-intellij.indexing.shared.core-IU-253.28294.169" />
+        <option value="bundled-js-predefined-d6986cc7102b-c7e53b3be11b-JavaScript-IU-253.28294.169" />
       </set>
     </attachedChunks>
   </component>
@@ -108,7 +123,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1763990789962</updated>
-      <workItem from="1763990791150" duration="12329000" />
+      <workItem from="1763990791150" duration="12520000" />
+      <workItem from="1764055125566" duration="9588000" />
     </task>
     <task id="LOCAL-00001" summary="Done some setup. Ready to start!">
       <option name="closed" value="true" />
@@ -126,7 +142,15 @@
       <option name="project" value="LOCAL" />
       <updated>1763993864979</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics.">
+      <option name="closed" value="true" />
+      <created>1764003432957</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1764003432957</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -146,6 +170,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Done some setup. Ready to start!" />
     <MESSAGE value="Even more setup. Now I have a simple project structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="Even more setup. Now I have a simple project structure" />
+    <MESSAGE value="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics." />
+    <option name="LAST_COMMIT_MESSAGE" value="Yep cleaned up junk and started using actually good methods. I decided that I'll start with scenarios first and just do Modules later. Anyway, tomorrow I'll do more registries until I have the basics." />
   </component>
 </project>

@@ -1,4 +1,4 @@
-package dev.royalcore.api.registries;
+package dev.royalcore.api.registrar;
 
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.tree.LiteralCommandNode;
@@ -12,25 +12,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UnusableOnServerStart
-public class CommandHandler {
+public class CommandRegistrar {
 
     @Getter
-    private static final CommandHandler commandHandler = new CommandHandler();
+    private static final CommandRegistrar commandRegistrar = new CommandRegistrar();
 
     private final List<LiteralCommandNode<CommandSourceStack>> commandNodes = new ArrayList<>();
 
-    private CommandHandler() {
+    private CommandRegistrar() {
     }
 
-    public void register(LiteralCommandNode<CommandSourceStack> commandNode) {
+    public final void add(LiteralCommandNode<CommandSourceStack> commandNode) {
         commandNodes.add(commandNode);
     }
 
-    public void register(LiteralArgumentBuilder<CommandSourceStack> commandBuilder) {
-        commandNodes.add(commandBuilder.build());
+    public final void add(LiteralArgumentBuilder<CommandSourceStack> commandNode) {
+        commandNodes.add(commandNode.build());
     }
 
-    public void finish() {
+    public final void finish() {
         for (LiteralCommandNode<CommandSourceStack> commandNode : commandNodes) {
             Main.getPlugin().getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
                 commands.registrar().register(commandNode);
