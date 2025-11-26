@@ -1,7 +1,6 @@
 plugins {
     id("java")
     id("java-library")
-    id("maven-publish")
 }
 
 group = "me.kythera"
@@ -31,12 +30,4 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:1.18.40")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.40")
 
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-        }
-    }
 }
