@@ -5,7 +5,8 @@ import org.bukkit.event.Listener;
 
 public class ListenerRegistry {
 
-    private ListenerRegistry() {}
+    private ListenerRegistry() {
+    }
 
     public static void register(Listener listener) {
         Main.getPlugin().getServer().getPluginManager().registerEvents(listener, Main.getPlugin());

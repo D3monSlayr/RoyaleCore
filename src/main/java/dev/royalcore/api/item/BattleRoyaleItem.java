@@ -9,7 +9,7 @@ public abstract class BattleRoyaleItem {
 
     public abstract ItemStack getItem();
 
-    public ShapedRecipe getShapedRecipe(){
+    public ShapedRecipe getShapedRecipe() {
         return null;
     }
 

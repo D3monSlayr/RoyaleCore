@@ -7,7 +7,6 @@ import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 public class Database {
     private final String dbPath;
@@ -18,8 +17,8 @@ public class Database {
     private Connection connection;
 
     /**
-     * @param dbPath  Path to database, e.g. "plugins/YourPlugin/database.db"
-     * @param plugin  Main plugin instance for logging
+     * @param dbPath Path to database, e.g. "plugins/YourPlugin/database.db"
+     * @param plugin Main plugin instance for logging
      */
     public Database(String dbPath, Plugin plugin) {
         this.dbPath = dbPath;
@@ -62,7 +61,8 @@ public class Database {
             if (connection != null && !connection.isClosed()) {
                 connection.close();
             }
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
     }
 
     /**
@@ -153,8 +153,9 @@ public class Database {
          */
         public CompletableFuture<Integer> readInt(String key) {
             return read(key).thenApply(str -> {
-                try { return str != null ? Integer.parseInt(str) : null; }
-                catch (Exception e) {
+                try {
+                    return str != null ? Integer.parseInt(str) : null;
+                } catch (Exception e) {
                     plugin.getLogger().warning("Malformed integer in table " + tableName + ": key=" + key + ", value=" + str);
                     return null;
                 }
@@ -189,8 +190,9 @@ public class Database {
          */
         public CompletableFuture<Double> readDouble(String key) {
             return read(key).thenApply(str -> {
-                try { return str != null ? Double.parseDouble(str) : null; }
-                catch (Exception e) {
+                try {
+                    return str != null ? Double.parseDouble(str) : null;
+                } catch (Exception e) {
                     plugin.getLogger().warning("Malformed double in table " + tableName + ": key=" + key + ", value=" + str);
                     return null;
                 }
@@ -202,8 +204,9 @@ public class Database {
          */
         public <T> CompletableFuture<T> readObject(String key, Class<T> type) {
             return read(key).thenApply(str -> {
-                try { return str != null ? gson.fromJson(str, type) : null; }
-                catch (Exception e) {
+                try {
+                    return str != null ? gson.fromJson(str, type) : null;
+                } catch (Exception e) {
                     plugin.getLogger().warning("Malformed JSON in table " + tableName + ": key=" + key + ", value=" + str);
                     return null;
                 }

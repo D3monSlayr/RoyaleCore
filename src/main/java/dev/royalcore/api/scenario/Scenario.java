@@ -4,7 +4,6 @@ import dev.royalcore.Main;
 import dev.royalcore.api.consumer.*;
 import dev.royalcore.api.enums.ScenarioPriority;
 import dev.royalcore.api.template.Template;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 
@@ -13,69 +12,13 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Scenario {
-    @Getter
-    private final Component name;
-
-    @Getter
-    private final TemplateConsumer templateConsumer;
-
-    @Getter
-    private final ItemConsumer itemConsumer;
-
-    @Getter
-    private final ListenerConsumer listenerConsumer;
-
-    @Getter
-    private final CommandConsumer commandConsumer;
-
-    @Getter
-    private final BorderConsumer borderConsumer;
-
-    @Getter
-    private final SettingsConsumer settingsConsumer;
-
-    @Getter
-    private final SchedulerConsumer schedulerConsumer;
-
-    @Getter
-    private final MessageConsumer messageConsumer;
-
-    @Getter
-    private final ScenarioPriority priority;
-
-    @Getter
-    private final List<dev.royalcore.api.template.Template> requiredTemplates;
-
-    @Getter
-    private final List<Scenario> requiredScenarios;
-
-    @Getter
-    private final List<Template> templateConflicts;
-
-    @Getter
-    private final List<Scenario> scenarioConflicts;
-
-    @Getter
-    private final PlayerConsumer playerConsumer;
-
-    public Scenario(Component name, TemplateConsumer context, ItemConsumer itemConsumer, ListenerConsumer listenerConsumer, CommandConsumer commandConsumer, BorderConsumer borderConsumer, SettingsConsumer settingsConsumer, SchedulerConsumer schedulerConsumer, MessageConsumer messageConsumer, ScenarioPriority priority, List<Template> requiredTemplates, List<Scenario> requiredScenarios, List<Template> templateConflicts, List<Scenario> scenarioConflicts, PlayerConsumer playerConsumer) {
-        this.name = name;
-        this.templateConsumer = context;
-        this.itemConsumer = itemConsumer;
-        this.listenerConsumer = listenerConsumer;
-        this.commandConsumer = commandConsumer;
-        this.borderConsumer = borderConsumer;
-        this.settingsConsumer = settingsConsumer;
-        this.schedulerConsumer = schedulerConsumer;
-        this.messageConsumer = messageConsumer;
-        this.priority = priority;
-        this.requiredTemplates = requiredTemplates;
-        this.requiredScenarios = requiredScenarios;
-        this.templateConflicts = templateConflicts;
-        this.scenarioConflicts = scenarioConflicts;
-        this.playerConsumer = playerConsumer;
-    }
+public record Scenario(Component name, TemplateConsumer templateConsumer, ItemConsumer itemConsumer,
+                       ListenerConsumer listenerConsumer, CommandConsumer commandConsumer,
+                       BorderConsumer borderConsumer, SettingsConsumer settingsConsumer,
+                       SchedulerConsumer schedulerConsumer, MessageConsumer messageConsumer, ScenarioPriority priority,
+                       List<Template> requiredTemplates, List<Scenario> requiredScenarios,
+                       List<Template> templateConflicts, List<Scenario> scenarioConflicts,
+                       PlayerConsumer playerConsumer) {
 
     public static ScenarioBuilder scenario(Component name) {
         return new ScenarioBuilder(name);
@@ -167,7 +110,7 @@ public class Scenario {
         }
 
         public Scenario build() {
-            if(name == null) {
+            if (name == null) {
                 Main.getPlugin().getComponentLogger().error(Component.text("The name of a scenario cannot be null or empty!"), new IllegalStateException());
                 return new Scenario(Component.text("Unknown (not set!)").color(NamedTextColor.DARK_RED), templateConsumer, itemConsumer, listenerConsumer, commandConsumer, borderConsumer, settingsConsumer, schedulerConsumer, messageConsumer, priority, requiredTemplates, requiredScenarios, conflictingTemplates, conflictingScenarios, playerConsumer);
             }

@@ -6,7 +6,10 @@ import net.kyori.adventure.text.Component;
 
 import java.rmi.AlreadyBoundException;
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SchedulerConsumer {
 
@@ -18,7 +21,7 @@ public class SchedulerConsumer {
 
     public void schedule(Duration start, Duration stop, Runnable runnable) {
 
-        if(schedules.containsValue(runnable)) {
+        if (schedules.containsValue(runnable)) {
             Main.getPlugin().getComponentLogger().error(Component.text("A runnable is already included in the registry!"), new AlreadyBoundException());
             return;
         }
@@ -28,7 +31,7 @@ public class SchedulerConsumer {
 
     public void schedule(Duration start, Runnable runnable) {
 
-        if(schedules.containsValue(runnable)) {
+        if (schedules.containsValue(runnable)) {
             Main.getPlugin().getComponentLogger().error(Component.text("A runnable is already included in the registry!"), new AlreadyBoundException());
             return;
         }
@@ -38,7 +41,7 @@ public class SchedulerConsumer {
 
     public void run(Runnable runnable) {
 
-        if(schedules.containsValue(runnable)) {
+        if (schedules.containsValue(runnable)) {
             Main.getPlugin().getComponentLogger().error(Component.text("A runnable is already included in the registry!"), new AlreadyBoundException());
             return;
         }

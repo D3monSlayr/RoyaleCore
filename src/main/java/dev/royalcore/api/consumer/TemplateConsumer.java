@@ -7,7 +7,6 @@ import net.kyori.adventure.text.Component;
 
 import java.rmi.AlreadyBoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class TemplateConsumer {
@@ -18,7 +17,7 @@ public class TemplateConsumer {
     public void useTemplates(Template... templates) {
 
         for (Template template : templates) {
-            if(this.templates.contains(template)) {
+            if (this.templates.contains(template)) {
                 Main.getPlugin().getComponentLogger().error(Component.text("A template is already included in the registry!"), new AlreadyBoundException());
             } else {
                 this.templates.add(template);

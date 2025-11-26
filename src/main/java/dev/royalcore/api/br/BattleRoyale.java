@@ -5,7 +5,6 @@ import dev.royalcore.api.consumer.SettingsConsumer;
 import dev.royalcore.api.engine.BattleRoyaleEngine;
 import dev.royalcore.api.scenario.Scenario;
 import dev.royalcore.api.template.Template;
-import lombok.Getter;
 import net.kyori.adventure.text.Component;
 
 import java.util.ArrayList;
@@ -14,25 +13,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.function.Consumer;
 
-public class BattleRoyale {
-    @Getter
-    private final UUID id;
-
-    @Getter
-    private final List<Scenario> scenarios;
-
-    @Getter
-    private final List<Template> templates;
-
-    @Getter
-    private final SettingsConsumer settingsConsumer;
-
-    @Getter
-    private final Runnable onStart;
-
-    @Getter
-    private final Runnable onStop;
-
+public record BattleRoyale(UUID id, List<Scenario> scenarios, List<Template> templates,
+                           SettingsConsumer settingsConsumer, Runnable onStart, Runnable onStop) {
     public BattleRoyale(UUID id, List<Scenario> scenarios, List<Template> templates, SettingsConsumer settingsConsumer, Runnable onStart, Runnable onStop) {
         this.id = id;
         this.scenarios = scenarios;
@@ -54,18 +36,20 @@ public class BattleRoyale {
         private final UUID id;
 
         private final List<Scenario> scenarios = new ArrayList<>();
-        private final List<dev.royalcore.api.template.Template> templates = new ArrayList<>();
+        private final List<Template> templates = new ArrayList<>();
 
         private final SettingsConsumer settings = new SettingsConsumer();
 
-        private Runnable onStart = () -> {};
-        private Runnable onStop = () -> {};
+        private Runnable onStart = () -> {
+        };
+        private Runnable onStop = () -> {
+        };
 
         public BattleRoyaleBuilder(UUID id) {
             this.id = id;
         }
 
-        public BattleRoyaleBuilder withTemplates(dev.royalcore.api.template.Template... templates) {
+        public BattleRoyaleBuilder withTemplates(Template... templates) {
             this.templates.addAll(Arrays.asList(templates));
             return this;
         }
@@ -91,7 +75,7 @@ public class BattleRoyale {
         }
 
         public BattleRoyale build() {
-            if(id == null) {
+            if (id == null) {
                 Main.getPlugin().getComponentLogger().warn(Component.text("The ID of a Battle Royale is null! Defaulted to a random ID"), new IllegalStateException());
                 return new BattleRoyale(UUID.randomUUID(), scenarios, templates, settings, onStart, onStop);
             }

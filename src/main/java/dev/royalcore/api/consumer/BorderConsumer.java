@@ -20,12 +20,12 @@ public class BorderConsumer {
         WorldBorder border = world.getWorldBorder();
         borderConsumer.accept(border);
 
-        if(world == null) {
+        if (world == null) {
             Main.getPlugin().getComponentLogger().error(Component.text("A world is null!"), new IllegalStateException());
             return;
         }
 
-        if(borders.containsKey(world)) {
+        if (borders.containsKey(world)) {
             Main.getPlugin().getComponentLogger().error(Component.text("A border has already be set for " + world.getName() + "!"), new AlreadyBoundException());
             return;
         }
@@ -35,7 +35,7 @@ public class BorderConsumer {
 
     public void removeBorder(World world) {
 
-        if(world == null) {
+        if (world == null) {
             Main.getPlugin().getComponentLogger().error(Component.text("A world is null!"), new IllegalStateException());
             return;
         }

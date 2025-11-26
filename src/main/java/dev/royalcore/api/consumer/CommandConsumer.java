@@ -20,7 +20,7 @@ public class CommandConsumer {
 
     public void register(LiteralCommandNode<CommandSourceStack> commandNode) {
 
-        if(commandNodes.contains(commandNode)) {
+        if (commandNodes.contains(commandNode)) {
             Main.getPlugin().getComponentLogger().error(Component.text("The command is already included in the registry!"), new AlreadyBoundException());
             return;
         }
@@ -30,7 +30,7 @@ public class CommandConsumer {
 
     public void register(LiteralArgumentBuilder<CommandSourceStack> commandNode) {
 
-        if(commandNodes.contains(commandNode.build())) {
+        if (commandNodes.contains(commandNode.build())) {
             Main.getPlugin().getComponentLogger().error(Component.text("The command is already included in the registry!"), new AlreadyBoundException());
             return;
         }

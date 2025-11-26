@@ -3,73 +3,18 @@ package dev.royalcore.api.template;
 import dev.royalcore.api.consumer.*;
 import dev.royalcore.api.enums.ScenarioPriority;
 import dev.royalcore.api.scenario.Scenario;
-import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
-public class Template {
-
-    @Getter
-    private final TemplateConsumer templateConsumer;
-
-    @Getter
-    private final ItemConsumer itemConsumer;
-
-    @Getter
-    private final ListenerConsumer listenerConsumer;
-
-    @Getter
-    private final CommandConsumer commandConsumer;
-
-    @Getter
-    private final BorderConsumer borderConsumer;
-
-    @Getter
-    private final SettingsConsumer settingsConsumer;
-
-    @Getter
-    private final SchedulerConsumer schedulerConsumer;
-
-    @Getter
-    private final MessageConsumer messageConsumer;
-
-    @Getter
-    private final ScenarioPriority priority;
-
-    @Getter
-    private final List<Template> requiredTemplates;
-
-    @Getter
-    private final List<Scenario> requiredScenarios;
-
-    @Getter
-    private final List<Template> templateConflicts;
-
-    @Getter
-    private final List<Scenario> scenarioConflicts;
-
-    @Getter
-    private final PlayerConsumer playerConsumer;
-
-    public Template(TemplateConsumer context, ItemConsumer itemConsumer, ListenerConsumer listenerConsumer, CommandConsumer commandConsumer, BorderConsumer borderConsumer, SettingsConsumer settingsConsumer, SchedulerConsumer schedulerConsumer, MessageConsumer messageConsumer, ScenarioPriority priority, List<Template> requiredTemplates, List<Scenario> requiredScenarios, List<Template> templateConflicts, List<Scenario> scenarioConflicts, PlayerConsumer playerConsumer) {
-        this.templateConsumer = context;
-        this.itemConsumer = itemConsumer;
-        this.listenerConsumer = listenerConsumer;
-        this.commandConsumer = commandConsumer;
-        this.borderConsumer = borderConsumer;
-        this.settingsConsumer = settingsConsumer;
-        this.schedulerConsumer = schedulerConsumer;
-        this.messageConsumer = messageConsumer;
-        this.priority = priority;
-        this.requiredTemplates = requiredTemplates;
-        this.requiredScenarios = requiredScenarios;
-        this.templateConflicts = templateConflicts;
-        this.scenarioConflicts = scenarioConflicts;
-        this.playerConsumer = playerConsumer;
-    }
+public record Template(TemplateConsumer templateConsumer, ItemConsumer itemConsumer, ListenerConsumer listenerConsumer,
+                       CommandConsumer commandConsumer, BorderConsumer borderConsumer,
+                       SettingsConsumer settingsConsumer, SchedulerConsumer schedulerConsumer,
+                       MessageConsumer messageConsumer, ScenarioPriority priority, List<Template> requiredTemplates,
+                       List<Scenario> requiredScenarios, List<Template> templateConflicts,
+                       List<Scenario> scenarioConflicts, PlayerConsumer playerConsumer) {
 
     public static TemplateBuilder template() {
         return new TemplateBuilder();
@@ -95,7 +40,8 @@ public class Template {
         private List<Template> conflictingTemplates = new ArrayList<>();
         private List<Scenario> conflictingScenarios = new ArrayList<>();
 
-        public TemplateBuilder() {}
+        public TemplateBuilder() {
+        }
 
         public TemplateBuilder templates(Consumer<TemplateConsumer> consumer) {
             consumer.accept(this.templateConsumer);

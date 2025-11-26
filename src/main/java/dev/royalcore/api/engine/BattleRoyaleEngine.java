@@ -26,22 +26,25 @@ public class BattleRoyaleEngine {
     @Getter
     private static final BattleRoyaleEngine battleRoyaleEngine = new BattleRoyaleEngine();
 
-    private BattleRoyaleEngine() {}
+    private BattleRoyaleEngine() {
+    }
 
     public void register(BattleRoyale battleRoyale) {
 
-        UUID id = battleRoyale.getId();
+        UUID id = battleRoyale.id();
 
-        List<Scenario> scenarios = battleRoyale.getScenarios();
-        List<Template> templates = battleRoyale.getTemplates();
-        SettingsConsumer settings = battleRoyale.getSettingsConsumer();
+        List<Scenario> scenarios = battleRoyale.scenarios();
+        List<Template> templates = battleRoyale.templates();
+        SettingsConsumer settings = battleRoyale.settingsConsumer();
 
         // Scenario registration.
         for (Scenario scenario : scenarios) {
 
-            if(checkRequiredScenarios(scenario, battleRoyale)) {
+            if (checkRequiredScenarios(scenario, battleRoyale)) {
                 registerScenario(scenario);
-            } else {return;}
+            } else {
+                return;
+            }
 
         }
 
@@ -50,16 +53,18 @@ public class BattleRoyaleEngine {
 
             if (checkRequiredScenarios(template, battleRoyale)) {
                 registerTemplate(template);
-            } else {return;}
+            } else {
+                return;
+            }
 
         }
 
     }
 
     public boolean checkRequiredScenarios(Scenario scenario, BattleRoyale battleRoyale) {
-        for (Scenario scenario1 : scenario.getRequiredScenarios()) {
-            if(!battleRoyale.getScenarios().contains(scenario1)) {
-                Main.getPlugin().getComponentLogger().error(Component.text("A battle royale with the ID of " + battleRoyale.getId() + " does not have the required scenarios for a scenario with the name '" + scenario1.getName() + "'"), new IllegalStateException());
+        for (Scenario scenario1 : scenario.requiredScenarios()) {
+            if (!battleRoyale.scenarios().contains(scenario1)) {
+                Main.getPlugin().getComponentLogger().error(Component.text("A battle royale with the ID of " + battleRoyale.id() + " does not have the required scenarios for a scenario with the name '" + scenario1.name() + "'"), new IllegalStateException());
                 FailedBRRegistry.add(battleRoyale);
                 return false;
             }
@@ -68,9 +73,9 @@ public class BattleRoyaleEngine {
     }
 
     public boolean checkRequiredScenarios(Template template, BattleRoyale royale) {
-        for (Template template1 : template.getRequiredTemplates()) {
-            if(!royale.getTemplates().contains(template1)) {
-                Main.getPlugin().getComponentLogger().error(Component.text("A battle royale with the ID of " + royale.getId() + " does not have the required templates for a template"), new IllegalStateException());
+        for (Template template1 : template.requiredTemplates()) {
+            if (!royale.templates().contains(template1)) {
+                Main.getPlugin().getComponentLogger().error(Component.text("A battle royale with the ID of " + royale.id() + " does not have the required templates for a template"), new IllegalStateException());
                 FailedBRRegistry.add(royale);
                 return false;
             }
@@ -80,23 +85,23 @@ public class BattleRoyaleEngine {
 
     public void registerScenario(Scenario scenario) {
 
-        for (Listener listener : scenario.getListenerConsumer().getListeners()) {
+        for (Listener listener : scenario.listenerConsumer().getListeners()) {
             ListenerRegistry.register(listener);
         }
 
-        for (LiteralCommandNode<CommandSourceStack> commandNode : scenario.getCommandConsumer().getCommandNodes()) {
+        for (LiteralCommandNode<CommandSourceStack> commandNode : scenario.commandConsumer().getCommandNodes()) {
             CommandRegistry.register(commandNode);
         }
 
-        for(BattleRoyaleItem item : scenario.getItemConsumer().getItems()) {
+        for (BattleRoyaleItem item : scenario.itemConsumer().getItems()) {
 
             ShapedRecipe shapedRecipe = item.getShapedRecipe();
             ShapelessRecipe shapelessRecipe = item.getShapelessRecipe();
 
-            if(shapedRecipe != null)  {
+            if (shapedRecipe != null) {
                 RecipeRegisty.register(shapedRecipe);
             }
-            if(shapelessRecipe != null) {
+            if (shapelessRecipe != null) {
                 RecipeRegisty.register(shapelessRecipe);
             }
         }
@@ -104,23 +109,23 @@ public class BattleRoyaleEngine {
     }
 
     public void registerTemplate(Template template) {
-        for (Listener listener : template.getListenerConsumer().getListeners()) {
+        for (Listener listener : template.listenerConsumer().getListeners()) {
             ListenerRegistry.register(listener);
         }
 
-        for (LiteralCommandNode<CommandSourceStack> commandNode : template.getCommandConsumer().getCommandNodes()) {
+        for (LiteralCommandNode<CommandSourceStack> commandNode : template.commandConsumer().getCommandNodes()) {
             CommandRegistry.register(commandNode);
         }
 
-        for(BattleRoyaleItem item : template.getItemConsumer().getItems()) {
+        for (BattleRoyaleItem item : template.itemConsumer().getItems()) {
 
             ShapedRecipe shapedRecipe = item.getShapedRecipe();
             ShapelessRecipe shapelessRecipe = item.getShapelessRecipe();
 
-            if(shapedRecipe != null)  {
+            if (shapedRecipe != null) {
                 RecipeRegisty.register(shapedRecipe);
             }
-            if(shapelessRecipe != null) {
+            if (shapelessRecipe != null) {
                 RecipeRegisty.register(shapelessRecipe);
             }
         }

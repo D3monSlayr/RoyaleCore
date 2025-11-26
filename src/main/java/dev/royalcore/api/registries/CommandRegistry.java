@@ -7,7 +7,8 @@ import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 
 public class CommandRegistry {
 
-    private CommandRegistry() {}
+    private CommandRegistry() {
+    }
 
     public static void register(LiteralCommandNode<CommandSourceStack> commandNode) {
         Main.getPlugin().getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {

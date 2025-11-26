@@ -18,7 +18,7 @@ public class ListenerConsumer {
 
     public void register(Listener listener) {
 
-        if(listeners.contains(listener)) {
+        if (listeners.contains(listener)) {
             Main.getPlugin().getComponentLogger().error(Component.text("A listener is already included in the registry!"), new AlreadyBoundException());
             return;
         }

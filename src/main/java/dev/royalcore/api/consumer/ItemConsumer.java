@@ -21,7 +21,7 @@ public class ItemConsumer {
             return;
         }
 
-        if(item.getItem() == null) {
+        if (item.getItem() == null) {
             Main.getPlugin().getComponentLogger().error(Component.text("An item is null!"), new IllegalStateException());
             return;
         }
