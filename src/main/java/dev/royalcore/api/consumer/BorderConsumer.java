@@ -14,11 +14,9 @@ import java.util.function.Consumer;
 public class BorderConsumer {
 
     @Getter
-    private final Map<World, WorldBorder> borders = new HashMap<>();
+    private final Map<World, Consumer<WorldBorder>> borders = new HashMap<>();
 
     public void addBorder(World world, Consumer<WorldBorder> borderConsumer) {
-        WorldBorder border = world.getWorldBorder();
-        borderConsumer.accept(border);
 
         if (world == null) {
             Main.getPlugin().getComponentLogger().error(Component.text("A world is null!"), new IllegalStateException());
@@ -30,7 +28,7 @@ public class BorderConsumer {
             return;
         }
 
-        borders.put(world, border);
+        borders.put(world, borderConsumer);
     }
 
     public void removeBorder(World world) {
@@ -40,7 +38,9 @@ public class BorderConsumer {
             return;
         }
 
+        if (!borders.containsKey(world)) return;
         world.getWorldBorder().reset();
+
     }
 
 }

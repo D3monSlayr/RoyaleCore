@@ -6,7 +6,6 @@ import net.kyori.adventure.text.Component;
 
 import java.rmi.AlreadyBoundException;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,9 +14,6 @@ public class SchedulerConsumer {
 
     @Getter
     private final Map<List<Duration>, Runnable> schedules = new HashMap<>();
-
-    @Getter
-    private final List<Runnable> runnables = new ArrayList<>();
 
     public void schedule(Duration start, Duration stop, Runnable runnable) {
 
@@ -36,7 +32,7 @@ public class SchedulerConsumer {
             return;
         }
 
-        schedules.put(List.of(start), runnable);
+        schedules.put(List.of(start, Duration.ZERO), runnable);
     }
 
     public void run(Runnable runnable) {
@@ -46,7 +42,7 @@ public class SchedulerConsumer {
             return;
         }
 
-        runnables.add(runnable);
+        schedules.put(List.of(Duration.ZERO, Duration.ZERO), runnable);
     }
 
 }

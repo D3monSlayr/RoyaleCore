@@ -9,7 +9,8 @@ import java.lang.annotation.Target;
 
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+public @interface NotForDeveloperUse {
 
-public @interface UnstableOnServerStart {
-    String reason() default "This should not be used on server start. It may cause crashes or errors!";
+    String reason() default "This feature is unsafe to use for developers. It is meant only for internal things.";
+
 }

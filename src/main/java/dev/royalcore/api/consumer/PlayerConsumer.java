@@ -8,7 +8,7 @@ import java.util.function.Consumer;
 public class PlayerConsumer {
 
     @Getter
-    private final Consumer<Player> players = player -> {
+    private final Consumer<Player> playerConsumer = player -> {
     };
 
 }

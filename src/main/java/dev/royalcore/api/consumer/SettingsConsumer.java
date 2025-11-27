@@ -1,35 +1,46 @@
 package dev.royalcore.api.consumer;
 
-import lombok.Getter;
-
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SettingsConsumer {
 
-    @Getter
-    private boolean lifesteal = true;
-    @Getter
-    private Duration grace = Duration.ZERO;
-    @Getter
-    private LateJoinHandling lateJoinHandling = LateJoinHandling.ALLOW_PARTICIPATION;
+    private final Map<Setting, Object> settings = new HashMap<>();
+
+    public SettingsConsumer() {
+        settings.put(Setting.LIFESTEAL, true);
+        settings.put(Setting.GRACE, Duration.ofMinutes(20));
+        settings.put(Setting.LATE_JOIN_BEHAVIOUR, LateJoinHandling.ALLOW_PARTICIPATION);
+    }
 
     public void lifesteal(boolean bool) {
-        lifesteal = bool;
+        settings.replace(Setting.LIFESTEAL, bool);
     }
 
-    public void grace(Duration time) {
-        grace = time;
+    public void grace(Duration duration) {
+        settings.replace(Setting.GRACE, duration);
     }
 
-    public void lateJoinBehavior(LateJoinHandling handler) {
-        lateJoinHandling = handler;
+    public void lateJoinBehaviour(LateJoinHandling handling) {
+        settings.replace(Setting.LATE_JOIN_BEHAVIOUR, handling);
+    }
+
+    public Object getSetting(Setting setting) {
+        return settings.getOrDefault(setting, null);
+    }
+
+    public enum Setting {
+        LIFESTEAL,
+        GRACE,
+        LATE_JOIN_BEHAVIOUR
     }
 
     public enum LateJoinHandling {
         SPAWN_WITH_SPECTATOR,
-        BAN,
         ALLOW_PARTICIPATION,
-        ALLOW_BALANCED_PARTICIPATION
+        ALLOW_BALANCED_PARTICIPATION,
+        BAN
     }
 
 }
