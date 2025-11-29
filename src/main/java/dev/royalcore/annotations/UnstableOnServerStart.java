@@ -2,12 +2,15 @@ package dev.royalcore.annotations;
 
 import java.lang.annotation.*;
 
+/**
+ * Marks an API element as unstable during server startup and subject to change.
+ */
 @NotForDeveloperUse
 
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
 
+@Documented
 public @interface UnstableOnServerStart {
     /**
      * Describes why this element should not be used during server startup.

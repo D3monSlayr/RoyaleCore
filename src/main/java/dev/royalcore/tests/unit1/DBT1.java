@@ -10,9 +10,18 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.event.Listener;
 
+/**
+ * Test implementation of {@link TestInterface} for unit testing.
+ */
 @MarkedForRemoval
 @NotForDeveloperUse
 public class DBT1 implements TestInterface {
+
+    /**
+     * Creates a new test implementation.
+     */
+    public DBT1() {
+    }
 
     @Override
     public void activate() {
@@ -40,7 +49,7 @@ public class DBT1 implements TestInterface {
                     Main.getPlugin().getComponentLogger().info(Component.text("Test unit 1 has succeeded!").color(NamedTextColor.GREEN));
 
                     try {
-                        ListenerRegistry.register(listener);
+                        ListenerRegistry.getListenerRegistry().register(listener);
                     } catch (Exception e) {
                         Main.getPlugin().getComponentLogger().error(Component.text("Failed to register listener in Test unit 1!"), e.getMessage());
                     }

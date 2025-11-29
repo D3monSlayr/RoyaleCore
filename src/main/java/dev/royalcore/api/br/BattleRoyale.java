@@ -18,6 +18,13 @@ import java.util.function.Consumer;
 /**
  * Represents a single Battle Royale game definition, including its unique ID,
  * scenarios, settings, lifecycle callbacks and current state.
+ *
+ * @param id               the unique identifier of this Battle Royale definition
+ * @param scenarios        the list of scenarios that belong to this Battle Royale
+ * @param settingsConsumer the settings associated with this Battle Royale
+ * @param onStart          the callback to invoke when the Battle Royale is started
+ * @param onStop           the callback to invoke when the Battle Royale is stopped
+ * @param state            the current state of the Battle Royale
  */
 public record BattleRoyale(
         UUID id,
@@ -29,7 +36,7 @@ public record BattleRoyale(
 ) {
 
     /**
-     * Creates a new BattleRoyale instance and registers it in the {@link BattleRoyaleEngine}.
+     * Creates a new BattleRoyale instance and registers it in the legacy {@link BattleRoyaleEngine}.
      *
      * @param id               the unique identifier of this Battle Royale definition
      * @param scenarios        the list of scenarios that belong to this Battle Royale
@@ -82,9 +89,6 @@ public record BattleRoyale(
 
     /**
      * Exposes the configured {@code onStart} callback to external consumers.
-     * <p>
-     * This is marked as unstable because the callback is behavioral and not persisted;
-     * it should only be used after all Battle Royale instances have been fully wired.
      *
      * @param onStart a consumer that receives the current {@code onStart} runnable
      */
@@ -95,9 +99,6 @@ public record BattleRoyale(
 
     /**
      * Returns a list of scenario IDs for persistence.
-     * <p>
-     * This allows the database layer to store references to scenarios instead of the
-     * scenario objects themselves.
      *
      * @return a list of scenario identifiers associated with this Battle Royale
      */
@@ -120,8 +121,6 @@ public record BattleRoyale(
 
     /**
      * Returns the settings object for persistence.
-     * <p>
-     * The concrete serialization of {@link SettingsConsumer} is handled at the database layer.
      *
      * @return the settings associated with this Battle Royale
      */
@@ -138,11 +137,13 @@ public record BattleRoyale(
         private final UUID id;
         private final List<Scenario> scenarios = new ArrayList<>();
         private final SettingsConsumer settings = new SettingsConsumer();
-        private final BattleRoyaleState state = BattleRoyaleState.WAITING;
+        private BattleRoyaleState state = BattleRoyaleState.NOT_STARTED;
 
         private Runnable onStart = () -> {
+            state = BattleRoyaleState.WAITING;
         };
         private Runnable onStop = () -> {
+            state = BattleRoyaleState.ENDED;
         };
 
         /**
@@ -224,8 +225,6 @@ public record BattleRoyale(
 
         /**
          * Builds a {@link BattleRoyale} instance with the current builder state.
-         * <p>
-         * If the ID is {@code null}, a random UUID is generated and a warning is logged.
          *
          * @return a new BattleRoyale instance
          */

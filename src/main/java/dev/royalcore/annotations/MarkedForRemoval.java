@@ -2,12 +2,15 @@ package dev.royalcore.annotations;
 
 import java.lang.annotation.*;
 
+/**
+ * Marks an API element as deprecated and planned for removal in a future version.
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
 
 @NotForDeveloperUse
 
+@Documented
 public @interface MarkedForRemoval {
 
     /**

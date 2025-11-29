@@ -2,12 +2,15 @@ package dev.royalcore.annotations;
 
 import java.lang.annotation.*;
 
+/**
+ * Marks an API element as experimental and subject to change or removal.
+ */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Documented
 @NotForDeveloperUse
-
+@Documented
 public @interface Experimental {
+
     /**
      * Explains why this element is considered experimental.
      *

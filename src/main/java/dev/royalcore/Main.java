@@ -1,16 +1,29 @@
 package dev.royalcore;
 
 import dev.royalcore.annotations.NotForDeveloperUse;
+import dev.royalcore.api.registries.CommandRegistry;
 import dev.royalcore.api.registries.FailedBRRegistry;
+import dev.royalcore.api.registries.ListenerRegistry;
+import dev.royalcore.api.registries.RecipeRegistry;
 import lombok.Getter;
 import lombok.Setter;
 import net.kyori.adventure.text.TextComponent;
 import org.bukkit.plugin.java.JavaPlugin;
 
+/**
+ * Main plugin entry point for RoyaleCore.
+ */
 public class Main extends JavaPlugin {
 
     @Getter
     private static Main plugin;
+
+    /**
+     * Creates the main plugin instance.
+     */
+    public Main() {
+        super();
+    }
 
     /**
      * Global flag indicating whether debug logging is enabled for the plugin.
@@ -52,6 +65,10 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         plugin = this;
         FailedBRRegistry.declare();
+
+        RecipeRegistry.getRecipeRegistry().finish();
+        CommandRegistry.getCommandRegistry().finish();
+        ListenerRegistry.getListenerRegistry().finish();
 
     }
 

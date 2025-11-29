@@ -16,8 +16,10 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+/**
+ * New engine responsible for managing battle royale sessions and state.
+ */
 @Experimental
-
 public class NewEngine {
 
     /**

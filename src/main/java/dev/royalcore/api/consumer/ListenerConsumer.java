@@ -10,16 +10,33 @@ import java.rmi.AlreadyBoundException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Collects Bukkit {@link Listener} instances for later registration.
+ */
 @UnstableOnServerStart
 public class ListenerConsumer {
+
+    /**
+     * Creates a new listener consumer.
+     */
+    public ListenerConsumer() {
+    }
 
     @Getter
     private final List<Listener> listeners = new ArrayList<>();
 
+    /**
+     * Registers a listener with this consumer if it is not already present.
+     *
+     * @param listener the listener to register
+     */
     public void register(Listener listener) {
 
         if (listeners.contains(listener)) {
-            Main.getPlugin().getComponentLogger().error(Component.text("A listener is already included in the registry!"), new AlreadyBoundException());
+            Main.getPlugin().getComponentLogger().error(
+                    Component.text("A listener is already included in the registry!"),
+                    new AlreadyBoundException()
+            );
             return;
         }
 

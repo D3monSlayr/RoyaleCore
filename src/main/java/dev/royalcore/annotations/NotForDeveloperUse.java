@@ -2,10 +2,14 @@ package dev.royalcore.annotations;
 
 import java.lang.annotation.*;
 
+/**
+ * Marks an API element as internal and not intended for direct use by plugin developers.
+ */
 @NotForDeveloperUse
 
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
+
 @Documented
 public @interface NotForDeveloperUse {
 

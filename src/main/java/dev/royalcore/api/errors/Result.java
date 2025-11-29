@@ -113,6 +113,24 @@ public sealed interface Result
     }
 
     /**
+     * Returns whether this result represents an error outcome.
+     *
+     * @return {@code true} if this result is an {@link Result.Err}, otherwise {@code false}
+     */
+    default boolean isErr() {
+        return this instanceof Result.Err;
+    }
+
+    /**
+     * Returns whether this result represents a successful outcome.
+     *
+     * @return {@code true} if this result is an {@link Result.Ok}, otherwise {@code false}
+     */
+    default boolean isOk() {
+        return this instanceof Result.Ok;
+    }
+
+    /**
      * Prints this result to the configured log outputs.
      * <p>
      * The exact logging behavior depends on the concrete implementation:
@@ -123,6 +141,9 @@ public sealed interface Result
 
     /**
      * Successful {@link Result} carrying an optional success message and a debug-only flag.
+     *
+     * @param successMsg               the success message associated with this result
+     * @param onlyIfDebugModeIsEnabled whether the message should be logged only when debug mode is enabled
      */
     record Ok(TextComponent successMsg, boolean onlyIfDebugModeIsEnabled) implements Result {
         /**
@@ -142,14 +163,18 @@ public sealed interface Result
 
     /**
      * Error {@link Result} carrying an error message, an optional exception, and a debug-only flag.
+     *
+     * @param errorMsg             the error message associated with this result
+     * @param exception            the exception linked to this error, or {@code null} if none
+     * @param onlyIfDebugIsEnabled whether the error should be logged only when debug mode is enabled
      */
     record Err(TextComponent errorMsg, Exception exception, boolean onlyIfDebugIsEnabled) implements Result {
 
         /**
          * Logs the error message (and associated exception, if present).
          * <p>
-         * If {@code onlyIfDebugIsEnabled} is {@code true}, the error is logged via {@link Main#debug(TextComponent)}
-         * and {@link Main#debug(TextComponent, Throwable)}. Otherwise, it is logged to the plugin's error logger.
+         * If {@code onlyIfDebugIsEnabled} is {@code true}, the error is logged via the debug methods on {@link Main}.
+         * Otherwise, it is logged to the plugin's error logger.
          */
         @Override
         public void print() {
@@ -188,6 +213,12 @@ public sealed interface Result
         public Broadcast add(Result result) {
             results.add(result);
             return this;
+        }
+
+        /**
+         * Creates an empty broadcast result collection.
+         */
+        public Broadcast() {
         }
 
         /**

@@ -10,15 +10,32 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Registry tracking BattleRoyale instances that failed validation or registration.
+ */
 @MarkedForRemoval
 public class FailedBRRegistry {
 
+    /**
+     * Creates a new failed battle royale registry.
+     */
+    public FailedBRRegistry() {
+    }
+
     private static final List<BattleRoyale> failedBRs = new ArrayList<>();
 
+    /**
+     * Adds a failed battle royale to the registry.
+     *
+     * @param battleRoyale the failed battle royale
+     */
     public static void add(BattleRoyale battleRoyale) {
         failedBRs.add(battleRoyale);
     }
 
+    /**
+     * Declares all failed battle royales, typically by logging them.
+     */
     public static void declare() {
 
         if (failedBRs.isEmpty()) return;
@@ -36,6 +53,12 @@ public class FailedBRRegistry {
         }
     }
 
+    /**
+     * Checks whether the given battle royale is marked as failed.
+     *
+     * @param battleRoyale the battle royale to check
+     * @return {@code true} if the given battle royale previously failed, otherwise {@code false}
+     */
     public boolean didFail(BattleRoyale battleRoyale) {
         return failedBRs.contains(battleRoyale);
     }
