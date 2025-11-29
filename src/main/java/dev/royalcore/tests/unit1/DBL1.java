@@ -1,10 +1,12 @@
 package dev.royalcore.tests.unit1;
 
+import dev.royalcore.annotations.MarkedForRemoval;
 import dev.royalcore.annotations.NotForDeveloperUse;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
+@MarkedForRemoval
 @NotForDeveloperUse
 public class DBL1 implements Listener {
 

@@ -1,6 +1,7 @@
 package dev.royalcore.api.scenario;
 
 import dev.royalcore.Main;
+import dev.royalcore.annotations.UnstableOnServerStart;
 import dev.royalcore.api.consumer.*;
 import dev.royalcore.api.enums.ScenarioPriority;
 import net.kyori.adventure.text.Component;
@@ -17,10 +18,22 @@ public record Scenario(Component name, ItemConsumer itemConsumer,
                        SchedulerConsumer schedulerConsumer, MessageConsumer messageConsumer, ScenarioPriority priority,
                        List<Scenario> scenarioConflicts,
                        List<Scenario> requiredScenarios,
-                       PlayerConsumer playerConsumer) {
+                       PlayerConsumer playerConsumer,
+                       Runnable onStart,
+                       Runnable onStop) {
 
     public static ScenarioBuilder scenario(Component name) {
         return new ScenarioBuilder(name);
+    }
+
+    @UnstableOnServerStart
+    public void onStart(Consumer<Runnable> consumer) {
+        consumer.accept(onStart);
+    }
+
+    @UnstableOnServerStart
+    public void onStop(Consumer<Runnable> consumer) {
+        consumer.accept(onStop);
     }
 
     public static class ScenarioBuilder {
@@ -40,12 +53,37 @@ public record Scenario(Component name, ItemConsumer itemConsumer,
         private List<Scenario> requiredScenarios = new ArrayList<>();
         private List<Scenario> conflictingScenarios = new ArrayList<>();
 
+        private Runnable onStart = () -> {
+        };
+        private Runnable onStop = () -> {
+        };
+
         public ScenarioBuilder(Component sname) {
             name = sname;
         }
 
         public ScenarioBuilder items(Consumer<ItemConsumer> consumer) {
             consumer.accept(itemConsumer);
+            return this;
+        }
+
+        public ScenarioBuilder onStart(Consumer<Runnable> onStart) {
+            onStart.accept(this.onStart);
+            return this;
+        }
+
+        public ScenarioBuilder onStart(Runnable runnable) {
+            this.onStart = runnable;
+            return this;
+        }
+
+        public ScenarioBuilder onStop(Consumer<Runnable> onStop) {
+            onStop.accept(this.onStop);
+            return this;
+        }
+
+        public ScenarioBuilder onStop(Runnable runnable) {
+            this.onStop = runnable;
             return this;
         }
 
@@ -92,10 +130,10 @@ public record Scenario(Component name, ItemConsumer itemConsumer,
         public Scenario build() {
             if (name == null) {
                 Main.getPlugin().getComponentLogger().error(Component.text("The name of a scenario cannot be null or empty!"), new IllegalStateException());
-                return new Scenario(Component.text("Unknown (not set!)").color(NamedTextColor.DARK_RED), itemConsumer, listenerConsumer, commandConsumer, borderConsumer, settingsConsumer, schedulerConsumer, messageConsumer, priority, requiredScenarios, conflictingScenarios, playerConsumer);
+                return new Scenario(Component.text("Unknown (not set!)").color(NamedTextColor.DARK_RED), itemConsumer, listenerConsumer, commandConsumer, borderConsumer, settingsConsumer, schedulerConsumer, messageConsumer, priority, requiredScenarios, conflictingScenarios, playerConsumer, onStart, onStop);
             }
 
-            return new Scenario(name, itemConsumer, listenerConsumer, commandConsumer, borderConsumer, settingsConsumer, schedulerConsumer, messageConsumer, priority, requiredScenarios, conflictingScenarios, playerConsumer);
+            return new Scenario(name, itemConsumer, listenerConsumer, commandConsumer, borderConsumer, settingsConsumer, schedulerConsumer, messageConsumer, priority, requiredScenarios, conflictingScenarios, playerConsumer, onStart, onStop);
 
         }
 

@@ -7,42 +7,38 @@ import net.kyori.adventure.text.Component;
 import java.rmi.AlreadyBoundException;
 import java.time.Duration;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 public class SchedulerConsumer {
 
     @Getter
-    private final Map<List<Duration>, Runnable> schedules = new HashMap<>();
+    private final Map<ScheduleWindow, Runnable> schedules = new HashMap<>();
 
-    public void schedule(Duration start, Duration stop, Runnable runnable) {
-
+    private void register(ScheduleWindow window, Runnable runnable) {
         if (schedules.containsValue(runnable)) {
-            Main.getPlugin().getComponentLogger().error(Component.text("A runnable is already included in the registry!"), new AlreadyBoundException());
+            Main.getPlugin().getComponentLogger().error(
+                    Component.text("A runnable is already included in the registry!"),
+                    new AlreadyBoundException()
+            );
             return;
         }
-
-        schedules.put(List.of(start, stop), runnable);
+        schedules.put(window, runnable);
     }
 
-    public void schedule(Duration start, Runnable runnable) {
+    public void scheduleTaskEveryTick(Duration start, Duration stop, Runnable runnable) {
+        register(new ScheduleWindow(Optional.of(start), Optional.of(stop)), runnable);
+    }
 
-        if (schedules.containsValue(runnable)) {
-            Main.getPlugin().getComponentLogger().error(Component.text("A runnable is already included in the registry!"), new AlreadyBoundException());
-            return;
-        }
-
-        schedules.put(List.of(start, Duration.ZERO), runnable);
+    public void scheduleTaskLater(Duration start, Runnable runnable) {
+        register(new ScheduleWindow(Optional.of(start), Optional.empty()), runnable);
     }
 
     public void run(Runnable runnable) {
+        register(new ScheduleWindow(Optional.empty(), Optional.empty()), runnable);
+    }
 
-        if (schedules.containsValue(runnable)) {
-            Main.getPlugin().getComponentLogger().error(Component.text("A runnable is already included in the registry!"), new AlreadyBoundException());
-            return;
-        }
-
-        schedules.put(List.of(Duration.ZERO, Duration.ZERO), runnable);
+    public record ScheduleWindow(Optional<Duration> start, Optional<Duration> stop) {
     }
 
 }

@@ -3,6 +3,7 @@ package dev.royalcore.api.engine;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import dev.royalcore.Main;
 import dev.royalcore.api.br.BattleRoyale;
+import dev.royalcore.api.errors.Result;
 import dev.royalcore.api.item.BattleRoyaleItem;
 import dev.royalcore.api.registries.CommandRegistry;
 import dev.royalcore.api.registries.FailedBRRegistry;
@@ -22,7 +23,6 @@ import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.inventory.ShapelessRecipe;
 
 import java.rmi.AlreadyBoundException;
-import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -36,7 +36,7 @@ public class BattleRoyaleEngine {
     private BattleRoyaleEngine() {
     }
 
-    public void register(BattleRoyale battleRoyale) {
+    public Result register(BattleRoyale battleRoyale) {
 
         List<Listener> listeners = new ArrayList<>();
         List<LiteralCommandNode<CommandSourceStack>> commandNodes = new ArrayList<>();
@@ -80,8 +80,7 @@ public class BattleRoyaleEngine {
 
                 if (!battleRoyale.scenarios().contains(requiredScenario)) {
                     FailedBRRegistry.add(battleRoyale);
-                    Main.getPlugin().getComponentLogger().error(Component.text("A battle royale doesn't have a required scenario! Failed to load it."), new AlreadyBoundException());
-                    return;
+                    return Result.Err(Component.text("A battle royale doesn't have a required scenario! Failed to load it."), new AlreadyBoundException(), false);
                 }
 
             }
@@ -90,32 +89,7 @@ public class BattleRoyaleEngine {
 
                 if (battleRoyale.scenarios().contains(conflictingScenario)) {
                     FailedBRRegistry.add(battleRoyale);
-                    Main.getPlugin().getComponentLogger().error(Component.text("A battle royale has been found to have conflicting scenarios! Failed to load it."), new AlreadyBoundException());
-                    return;
-                }
-
-            }
-
-            for (Map.Entry<List<Duration>, Runnable> entry : scenario.schedulerConsumer().getSchedules().entrySet()) {
-                List<Duration> durations = entry.getKey();
-                Runnable runnable = entry.getValue();
-
-                if (durations.size() != 2) {
-                    FailedBRRegistry.add(battleRoyale);
-                    Main.getPlugin().getComponentLogger().error(Component.text("A battle royale with a scenario that does not have the valid amount of values was found. Failed to load!"), new IllegalStateException());
-                    return;
-                }
-
-                if (durations.get(0) == Duration.ZERO && durations.get(1) == Duration.ZERO) {
-                    battleRoyale.onStart(_ -> Bukkit.getScheduler().runTask(Main.getPlugin(), runnable));
-                }
-
-                if (durations.get(1) == Duration.ZERO) {
-                    battleRoyale.onStart(_ -> Bukkit.getScheduler().runTaskLater(Main.getPlugin(), runnable, durations.getFirst().toMillis()));
-                }
-
-                if (durations.get(0) != Duration.ZERO && durations.get(1) != Duration.ZERO) {
-                    battleRoyale.onStart(_ -> Bukkit.getScheduler().runTaskTimer(Main.getPlugin(), runnable, durations.getFirst().toMillis(), durations.get(1).toMillis()));
+                    return Result.Err(Component.text("A battle royale has been found to have conflicting scenarios! Failed to load it."), new AlreadyBoundException(), false);
                 }
 
             }
@@ -151,6 +125,8 @@ public class BattleRoyaleEngine {
         for (Recipe recipe : recipes) {
             RecipeRegisty.register(recipe);
         }
+
+        return Result.Ok(Component.text("Successfully registered a battle royale with the ID of " + battleRoyale.id().toString()), true);
 
     }
 

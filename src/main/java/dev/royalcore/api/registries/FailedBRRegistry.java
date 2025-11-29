@@ -1,6 +1,7 @@
 package dev.royalcore.api.registries;
 
 import dev.royalcore.Main;
+import dev.royalcore.annotations.MarkedForRemoval;
 import dev.royalcore.api.br.BattleRoyale;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
@@ -9,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+@MarkedForRemoval
 public class FailedBRRegistry {
 
     private static final List<BattleRoyale> failedBRs = new ArrayList<>();

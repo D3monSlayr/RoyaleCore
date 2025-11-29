@@ -1,6 +1,7 @@
 package dev.royalcore.tests.unit1;
 
 import dev.royalcore.Main;
+import dev.royalcore.annotations.MarkedForRemoval;
 import dev.royalcore.annotations.NotForDeveloperUse;
 import dev.royalcore.api.db.Database;
 import dev.royalcore.api.registries.ListenerRegistry;
@@ -9,6 +10,7 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import org.bukkit.event.Listener;
 
+@MarkedForRemoval
 @NotForDeveloperUse
 public class DBT1 implements TestInterface {
 
