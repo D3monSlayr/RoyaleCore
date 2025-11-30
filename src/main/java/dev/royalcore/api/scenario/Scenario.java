@@ -32,6 +32,7 @@ import java.util.function.Consumer;
  * @param playerConsumer    per-player behaviour applied when the scenario starts
  * @param onStart           callback invoked when the scenario starts
  * @param onStop            callback invoked when the scenario stops
+ * @param resourcepackConsumer resource packs that must be applied
  */
 public record Scenario(
         Component name,
@@ -47,7 +48,8 @@ public record Scenario(
         List<Scenario> requiredScenarios,
         PlayerConsumer playerConsumer,
         Runnable onStart,
-        Runnable onStop
+        Runnable onStop,
+        ResourcepackConsumer resourcepackConsumer
 ) {
 
     /**
@@ -94,6 +96,7 @@ public record Scenario(
         private final SchedulerConsumer schedulerConsumer = new SchedulerConsumer();
         private final MessageConsumer messageConsumer = new MessageConsumer();
         private final PlayerConsumer playerConsumer = new PlayerConsumer();
+        private final ResourcepackConsumer resourcepackConsumer = new ResourcepackConsumer();
 
         private ScenarioPriority priority = ScenarioPriority.LOW;
 
@@ -258,6 +261,18 @@ public record Scenario(
         }
 
         /**
+         * Configures the resource packs for this scenario
+         *
+         * @param resourcepackConsumer a consumer that receives the internal {@link ResourcepackConsumer}
+         * @return this builder for chaining
+         *
+         */
+        public ScenarioBuilder resourcePacks(Consumer<ResourcepackConsumer> resourcepackConsumer) {
+            resourcepackConsumer.accept(this.resourcepackConsumer);
+            return this;
+        }
+
+        /**
          * Builds the {@link Scenario} instance from the accumulated configuration.
          * <p>
          * If no name is provided, a placeholder scenario is created and an error is logged.
@@ -284,7 +299,8 @@ public record Scenario(
                         conflictingScenarios,
                         playerConsumer,
                         onStart,
-                        onStop
+                        onStop,
+                        resourcepackConsumer
                 );
             }
 
@@ -302,7 +318,8 @@ public record Scenario(
                     conflictingScenarios,
                     playerConsumer,
                     onStart,
-                    onStop
+                    onStop,
+                    resourcepackConsumer
             );
         }
 

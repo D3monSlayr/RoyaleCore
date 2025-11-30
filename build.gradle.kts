@@ -30,4 +30,6 @@ dependencies {
     testCompileOnly("org.projectlombok:lombok:1.18.40")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.40")
 
+    implementation("net.sandrohc:schematic4j:1.1.0")
+
 }

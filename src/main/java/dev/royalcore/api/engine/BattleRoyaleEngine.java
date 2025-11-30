@@ -40,7 +40,6 @@ public class BattleRoyaleEngine {
     /**
      * Singleton instance of the legacy {@link BattleRoyaleEngine}.
      *
-     * @return the global engine instance
      */
     @Getter
     private static final BattleRoyaleEngine battleRoyaleEngine = new BattleRoyaleEngine();

@@ -45,11 +45,20 @@ public class SchedulerConsumer {
      * Schedules a task to run every tick between the given start and stop offsets.
      *
      * @param start    the start offset from some reference time
-     * @param stop     the stop offset from the same reference time
+     * @param delay     the delay between the runnable
      * @param runnable the runnable to execute repeatedly
      */
-    public void scheduleTaskEveryTick(Duration start, Duration stop, Runnable runnable) {
-        register(new ScheduleWindow(Optional.of(start), Optional.of(stop)), runnable);
+    public void scheduleOnTicks(Duration start, Duration delay, Runnable runnable) {
+        register(new ScheduleWindow(Optional.of(start), Optional.of(delay)), runnable);
+    }
+
+    /**
+     * Schedules a task to run every tick on the start of the Battle Royale.
+     *
+     * @param runnable the runnable to execute repeatedly
+     */
+    public void scheduleOnTicks(Runnable runnable) {
+        schedules.put(new ScheduleWindow(Optional.of(Duration.ZERO), Optional.of(Duration.ofDays(Long.MAX_VALUE))), runnable);
     }
 
     /**

@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -76,6 +77,11 @@ public class NewEngine {
                 long delayTicks = toTicks(window.start().get());
                 long periodTicks = toTicks(window.stop().get());
                 scenario.onStart(_ -> Bukkit.getScheduler().runTaskTimer(Main.getPlugin(), runnable, delayTicks, periodTicks));
+                continue;
+            }
+
+            if (window.start().equals(Optional.empty()) && window.start().equals(Optional.of(Duration.ofDays(Long.MAX_VALUE)))) {
+                scenario.onStart(_ -> Bukkit.getScheduler().runTaskTimer(Main.getPlugin(), runnable, 0L, 1L));
                 continue;
             }
 

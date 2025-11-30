@@ -2,7 +2,9 @@ package dev.royalcore.api.br;
 
 import dev.royalcore.Main;
 import dev.royalcore.annotations.UnstableOnServerStart;
+import dev.royalcore.api.consumer.ResourcepackConsumer;
 import dev.royalcore.api.consumer.SettingsConsumer;
+import dev.royalcore.api.consumer.StructureConsumer;
 import dev.royalcore.api.engine.BattleRoyaleEngine;
 import dev.royalcore.api.enums.BattleRoyaleState;
 import dev.royalcore.api.scenario.Scenario;
@@ -25,6 +27,8 @@ import java.util.function.Consumer;
  * @param onStart          the callback to invoke when the Battle Royale is started
  * @param onStop           the callback to invoke when the Battle Royale is stopped
  * @param state            the current state of the Battle Royale
+ * @param structureConsumer the structures associated with the Battle Royale
+ * @param resourcepackConsumer the resource packs associated with the Battle Royale
  */
 public record BattleRoyale(
         UUID id,
@@ -32,7 +36,9 @@ public record BattleRoyale(
         SettingsConsumer settingsConsumer,
         Runnable onStart,
         Runnable onStop,
-        BattleRoyaleState state
+        BattleRoyaleState state,
+        ResourcepackConsumer resourcepackConsumer,
+        StructureConsumer structureConsumer
 ) {
 
     /**
@@ -44,6 +50,7 @@ public record BattleRoyale(
      * @param onStart          the callback to invoke when the Battle Royale is started
      * @param onStop           the callback to invoke when the Battle Royale is stopped
      * @param state            the initial state of the Battle Royale
+     * @param resourcepackConsumer the resource packs used for this Battle Royale
      */
     public BattleRoyale(
             UUID id,
@@ -51,7 +58,9 @@ public record BattleRoyale(
             SettingsConsumer settingsConsumer,
             Runnable onStart,
             Runnable onStop,
-            BattleRoyaleState state
+            BattleRoyaleState state,
+            ResourcepackConsumer resourcepackConsumer,
+            StructureConsumer structureConsumer
     ) {
         this.id = id;
         this.scenarios = scenarios;
@@ -59,6 +68,8 @@ public record BattleRoyale(
         this.onStart = onStart;
         this.onStop = onStop;
         this.state = state;
+        this.resourcepackConsumer = resourcepackConsumer;
+        this.structureConsumer = structureConsumer;
 
         BattleRoyaleEngine.getBattleRoyaleEngine().register(this);
     }
@@ -98,37 +109,6 @@ public record BattleRoyale(
     }
 
     /**
-     * Returns a list of scenario IDs for persistence.
-     *
-     * @return a list of scenario identifiers associated with this Battle Royale
-     */
-    public List<String> scenarioIdsForDatabase() {
-        List<String> names = new ArrayList<>();
-        for (Scenario scenario : scenarios) {
-            names.add(scenario.name().toString());
-        }
-        return names;
-    }
-
-    /**
-     * Returns the current state name for persistence.
-     *
-     * @return the {@link BattleRoyaleState#name()} of this Battle Royale
-     */
-    public String stateForDatabase() {
-        return state.name();
-    }
-
-    /**
-     * Returns the settings object for persistence.
-     *
-     * @return the settings associated with this Battle Royale
-     */
-    public SettingsConsumer settingsForDatabase() {
-        return settingsConsumer;
-    }
-
-    /**
      * Builder for {@link BattleRoyale} instances, providing a fluent API
      * to configure scenarios, settings, and lifecycle callbacks.
      */
@@ -136,15 +116,15 @@ public record BattleRoyale(
 
         private final UUID id;
         private final List<Scenario> scenarios = new ArrayList<>();
+
         private final SettingsConsumer settings = new SettingsConsumer();
+        private final ResourcepackConsumer resourcepacks = new ResourcepackConsumer();
+        private final StructureConsumer structures = new StructureConsumer();
+
         private BattleRoyaleState state = BattleRoyaleState.NOT_STARTED;
 
-        private Runnable onStart = () -> {
-            state = BattleRoyaleState.WAITING;
-        };
-        private Runnable onStop = () -> {
-            state = BattleRoyaleState.ENDED;
-        };
+        private Runnable onStart = () -> state = BattleRoyaleState.WAITING;
+        private Runnable onStop = () -> state = BattleRoyaleState.ENDED;
 
         /**
          * Creates a builder for a BattleRoyale with the given ID.
@@ -163,6 +143,18 @@ public record BattleRoyale(
          */
         public BattleRoyaleBuilder withScenarios(Scenario... scenarios) {
             this.scenarios.addAll(Arrays.asList(scenarios));
+            return this;
+        }
+
+        /**
+         *
+         * Configures resourcepacks for this Battle Royale via the provided consumer.
+         *
+         * @param resourcePacksConsumer a consumer that mutates the internal {@link ResourcepackConsumer}
+         * @return this builder instance for chaining
+         */
+        public BattleRoyaleBuilder withResourcePacks(Consumer<ResourcepackConsumer> resourcePacksConsumer) {
+            resourcePacksConsumer.accept(this.resourcepacks);
             return this;
         }
 
@@ -224,6 +216,17 @@ public record BattleRoyale(
         }
 
         /**
+         * Configures structures for this Battle Royale via the provided consumer.
+         *
+         * @param structures a consumer that mutates the internal {@link StructureConsumer}
+         * @return this builder instance for chaining
+         */
+        public BattleRoyaleBuilder withStructures(Consumer<StructureConsumer> structures) {
+            structures.accept(this.structures);
+            return this;
+        }
+
+        /**
          * Builds a {@link BattleRoyale} instance with the current builder state.
          *
          * @return a new BattleRoyale instance
@@ -234,10 +237,10 @@ public record BattleRoyale(
                         Component.text("The ID of a Battle Royale is null! Defaulted to a random ID"),
                         new IllegalStateException()
                 );
-                return new BattleRoyale(UUID.randomUUID(), scenarios, settings, onStart, onStop, state);
+                return new BattleRoyale(UUID.randomUUID(), scenarios, settings, onStart, onStop, state, resourcepacks, structures);
             }
 
-            return new BattleRoyale(id, scenarios, settings, onStart, onStop, state);
+            return new BattleRoyale(id, scenarios, settings, onStart, onStop, state, resourcepacks, structures);
         }
 
     }
