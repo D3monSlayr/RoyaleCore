@@ -2,7 +2,7 @@ package dev.royalcore.api.br;
 
 import dev.royalcore.Main;
 import dev.royalcore.annotations.UnstableOnServerStart;
-import dev.royalcore.api.consumer.ResourcepackConsumer;
+import dev.royalcore.api.consumer.ResourcePackConsumer;
 import dev.royalcore.api.consumer.SettingsConsumer;
 import dev.royalcore.api.consumer.StructureConsumer;
 import dev.royalcore.api.engine.BattleRoyaleEngine;
@@ -37,7 +37,7 @@ public record BattleRoyale(
         Runnable onStart,
         Runnable onStop,
         BattleRoyaleState state,
-        ResourcepackConsumer resourcepackConsumer,
+        ResourcePackConsumer resourcepackConsumer,
         StructureConsumer structureConsumer
 ) {
 
@@ -59,7 +59,7 @@ public record BattleRoyale(
             Runnable onStart,
             Runnable onStop,
             BattleRoyaleState state,
-            ResourcepackConsumer resourcepackConsumer,
+            ResourcePackConsumer resourcepackConsumer,
             StructureConsumer structureConsumer
     ) {
         this.id = id;
@@ -118,7 +118,7 @@ public record BattleRoyale(
         private final List<Scenario> scenarios = new ArrayList<>();
 
         private final SettingsConsumer settings = new SettingsConsumer();
-        private final ResourcepackConsumer resourcepacks = new ResourcepackConsumer();
+        private final ResourcePackConsumer resourcepacks = new ResourcePackConsumer();
         private final StructureConsumer structures = new StructureConsumer();
 
         private BattleRoyaleState state = BattleRoyaleState.NOT_STARTED;
@@ -150,10 +150,10 @@ public record BattleRoyale(
          *
          * Configures resourcepacks for this Battle Royale via the provided consumer.
          *
-         * @param resourcePacksConsumer a consumer that mutates the internal {@link ResourcepackConsumer}
+         * @param resourcePacksConsumer a consumer that mutates the internal {@link ResourcePackConsumer}
          * @return this builder instance for chaining
          */
-        public BattleRoyaleBuilder withResourcePacks(Consumer<ResourcepackConsumer> resourcePacksConsumer) {
+        public BattleRoyaleBuilder withResourcePacks(Consumer<ResourcePackConsumer> resourcePacksConsumer) {
             resourcePacksConsumer.accept(this.resourcepacks);
             return this;
         }

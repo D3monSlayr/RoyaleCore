@@ -49,7 +49,7 @@ public record Scenario(
         PlayerConsumer playerConsumer,
         Runnable onStart,
         Runnable onStop,
-        ResourcepackConsumer resourcepackConsumer
+        ResourcePackConsumer resourcepackConsumer
 ) {
 
     /**
@@ -96,7 +96,7 @@ public record Scenario(
         private final SchedulerConsumer schedulerConsumer = new SchedulerConsumer();
         private final MessageConsumer messageConsumer = new MessageConsumer();
         private final PlayerConsumer playerConsumer = new PlayerConsumer();
-        private final ResourcepackConsumer resourcepackConsumer = new ResourcepackConsumer();
+        private final ResourcePackConsumer resourcepackConsumer = new ResourcePackConsumer();
 
         private ScenarioPriority priority = ScenarioPriority.LOW;
 
@@ -263,11 +263,11 @@ public record Scenario(
         /**
          * Configures the resource packs for this scenario
          *
-         * @param resourcepackConsumer a consumer that receives the internal {@link ResourcepackConsumer}
+         * @param resourcepackConsumer a consumer that receives the internal {@link ResourcePackConsumer}
          * @return this builder for chaining
          *
          */
-        public ScenarioBuilder resourcePacks(Consumer<ResourcepackConsumer> resourcepackConsumer) {
+        public ScenarioBuilder resourcePacks(Consumer<ResourcePackConsumer> resourcepackConsumer) {
             resourcepackConsumer.accept(this.resourcepackConsumer);
             return this;
         }

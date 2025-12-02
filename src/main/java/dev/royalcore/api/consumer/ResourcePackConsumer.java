@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Handles resource pack operations such as adding packs and sending them to players.
  */
-public class ResourcepackConsumer {
+public class ResourcePackConsumer {
 
     /**
      * List of resource packs managed by this consumer.
@@ -24,7 +24,7 @@ public class ResourcepackConsumer {
     /**
      * Default constructor
      */
-    public ResourcepackConsumer() {
+    public ResourcePackConsumer() {
     }
 
     /**
