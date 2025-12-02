@@ -48,7 +48,11 @@ public class Config {
 
         try {
             if (!file.exists()) {
-                file.createNewFile();
+                boolean cf = file.createNewFile();
+
+                if (!cf) {
+                    Result.Err(Component.text("Failed to create '" + name + "'"), false);
+                }
             }
         } catch (IOException e) {
             Result.Err(Component.text("Failed to create '" + name + "'"), new RuntimeException(e), false);
@@ -84,6 +88,26 @@ public class Config {
             }
         }
         return null;
+    }
+
+    /**
+     * Checks if a field with the given name exists in this configuration.
+     *
+     * @param name the field name to check
+     * @return {@code true} if a field with the given name exists, {@code false} otherwise
+     */
+    public boolean exists(String name) {
+        return getField(name) != null;
+    }
+
+    /**
+     * Checks if a field with the given name exists in this configuration.
+     *
+     * @param field the field to check
+     * @return {@code true} if the field exists, {@code false} otherwise
+     */
+    public <T> boolean exists(Field<T> field) {
+        return getField(field) != null;
     }
 
     /**
