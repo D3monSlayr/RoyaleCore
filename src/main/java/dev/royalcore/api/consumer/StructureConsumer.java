@@ -36,13 +36,13 @@ import static dev.royalcore.api.utils.SchematicUtils.getRandomInRange;
 @Experimental
 public class StructureConsumer {
 
+    private final Map<TrackedSchematic, Double> schematics = new LinkedHashMap<>();
+
     /**
      * Default constructor
      */
     public StructureConsumer() {
     }
-
-    private final Map<TrackedSchematic, Double> schematics = new LinkedHashMap<>();
 
     /**
      * Adds a schematic by path.

@@ -104,7 +104,7 @@ public class Config {
      * Checks if the given field exists in this configuration.
      *
      * @param field the field to check for existence
-     * @param <T> the type of the field's value
+     * @param <T>   the type of the field's value
      * @return true if the field exists, false otherwise
      */
     public <T> boolean exists(Field<T> field) {

@@ -17,14 +17,6 @@ public class Main extends JavaPlugin {
 
     @Getter
     private static Main plugin;
-
-    /**
-     * Creates the main plugin instance.
-     */
-    public Main() {
-        super();
-    }
-
     /**
      * Global flag indicating whether debug logging is enabled for the plugin.
      * <p>
@@ -34,6 +26,13 @@ public class Main extends JavaPlugin {
     @Getter
     @Setter
     private static boolean debug = false;
+
+    /**
+     * Creates the main plugin instance.
+     */
+    public Main() {
+        super();
+    }
 
     /**
      * Logs a debug message if debug mode is enabled.

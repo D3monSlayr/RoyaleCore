@@ -11,13 +11,13 @@ import java.util.Random;
  */
 public class SchematicUtils {
 
+    private static final Random random = new Random();
+
     /**
      * Default constructor.
      */
     public SchematicUtils() {
     }
-
-    private static final Random random = new Random();
 
     /**
      * Finds the highest possible flat ground level inside the given XZ bounds where a

@@ -14,14 +14,14 @@ import java.util.List;
  */
 public class ItemConsumer {
 
+    @Getter
+    private final List<BattleRoyaleItem> items = new ArrayList<>();
+
     /**
      * Creates a new item consumer.
      */
     public ItemConsumer() {
     }
-
-    @Getter
-    private final List<BattleRoyaleItem> items = new ArrayList<>();
 
     /**
      * Adds an item to this consumer if it is not already present and valid.

@@ -15,14 +15,14 @@ import java.util.Optional;
  */
 public class SchedulerConsumer {
 
+    @Getter
+    private final Map<ScheduleWindow, Runnable> schedules = new HashMap<>();
+
     /**
      * Creates a new scheduler consumer.
      */
     public SchedulerConsumer() {
     }
-
-    @Getter
-    private final Map<ScheduleWindow, Runnable> schedules = new HashMap<>();
 
     /**
      * Registers a runnable to be executed within the given schedule window.
@@ -45,7 +45,7 @@ public class SchedulerConsumer {
      * Schedules a task to run every tick between the given start and stop offsets.
      *
      * @param start    the start offset from some reference time
-     * @param delay     the delay between the runnable
+     * @param delay    the delay between the runnable
      * @param runnable the runnable to execute repeatedly
      */
     public void scheduleOnTicks(Duration start, Duration delay, Runnable runnable) {

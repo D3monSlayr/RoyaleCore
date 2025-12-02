@@ -16,14 +16,14 @@ import java.util.List;
 @UnstableOnServerStart
 public class ListenerConsumer {
 
+    @Getter
+    private final List<Listener> listeners = new ArrayList<>();
+
     /**
      * Creates a new listener consumer.
      */
     public ListenerConsumer() {
     }
-
-    @Getter
-    private final List<Listener> listeners = new ArrayList<>();
 
     /**
      * Registers a listener with this consumer if it is not already present.

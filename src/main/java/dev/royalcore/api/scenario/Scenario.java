@@ -18,20 +18,20 @@ import java.util.function.Consumer;
  * A scenario aggregates item, listener, command, border, settings, scheduler,
  * message and player behaviour, along with dependencies and lifecycle callbacks.
  *
- * @param name              the display name of the scenario
- * @param itemConsumer      item configuration and custom items used by this scenario
- * @param listenerConsumer  event listeners associated with this scenario
- * @param commandConsumer   commands exposed by this scenario
- * @param borderConsumer    world border configuration for this scenario
- * @param settingsConsumer  configurable settings for this scenario
- * @param schedulerConsumer scheduled tasks associated with this scenario
- * @param messageConsumer   messages used by this scenario
- * @param priority          priority of this scenario when resolving order
- * @param scenarioConflicts scenarios that cannot be enabled together with this one
- * @param requiredScenarios scenarios that must also be enabled for this one to be valid
- * @param playerConsumer    per-player behaviour applied when the scenario starts
- * @param onStart           callback invoked when the scenario starts
- * @param onStop            callback invoked when the scenario stops
+ * @param name                 the display name of the scenario
+ * @param itemConsumer         item configuration and custom items used by this scenario
+ * @param listenerConsumer     event listeners associated with this scenario
+ * @param commandConsumer      commands exposed by this scenario
+ * @param borderConsumer       world border configuration for this scenario
+ * @param settingsConsumer     configurable settings for this scenario
+ * @param schedulerConsumer    scheduled tasks associated with this scenario
+ * @param messageConsumer      messages used by this scenario
+ * @param priority             priority of this scenario when resolving order
+ * @param scenarioConflicts    scenarios that cannot be enabled together with this one
+ * @param requiredScenarios    scenarios that must also be enabled for this one to be valid
+ * @param playerConsumer       per-player behaviour applied when the scenario starts
+ * @param onStart              callback invoked when the scenario starts
+ * @param onStop               callback invoked when the scenario stops
  * @param resourcepackConsumer resource packs that must be applied
  */
 public record Scenario(

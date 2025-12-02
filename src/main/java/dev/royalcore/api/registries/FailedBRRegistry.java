@@ -16,13 +16,13 @@ import java.util.UUID;
 @MarkedForRemoval
 public class FailedBRRegistry {
 
+    private static final List<BattleRoyale> failedBRs = new ArrayList<>();
+
     /**
      * Creates a new failed battle royale registry.
      */
     public FailedBRRegistry() {
     }
-
-    private static final List<BattleRoyale> failedBRs = new ArrayList<>();
 
     /**
      * Adds a failed battle royale to the registry.

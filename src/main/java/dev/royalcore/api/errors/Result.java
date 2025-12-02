@@ -205,6 +205,12 @@ public sealed interface Result
         private final List<Result> results = new ArrayList<>();
 
         /**
+         * Creates an empty broadcast result collection.
+         */
+        public Broadcast() {
+        }
+
+        /**
          * Adds a result to this broadcast collection.
          *
          * @param result the result to add
@@ -213,12 +219,6 @@ public sealed interface Result
         public Broadcast add(Result result) {
             results.add(result);
             return this;
-        }
-
-        /**
-         * Creates an empty broadcast result collection.
-         */
-        public Broadcast() {
         }
 
         /**

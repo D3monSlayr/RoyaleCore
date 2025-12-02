@@ -18,14 +18,14 @@ import java.util.List;
 @UnstableOnServerStart
 public class CommandConsumer {
 
+    @Getter
+    private final List<LiteralCommandNode<CommandSourceStack>> commandNodes = new ArrayList<>();
+
     /**
      * Creates a new command consumer.
      */
     public CommandConsumer() {
     }
-
-    @Getter
-    private final List<LiteralCommandNode<CommandSourceStack>> commandNodes = new ArrayList<>();
 
     /**
      * Registers a pre-built command node if it is not already present.

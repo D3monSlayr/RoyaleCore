@@ -15,18 +15,16 @@ public class MessageConsumer {
             .color(NamedTextColor.RED)
             .decorate(TextDecoration.BOLD)
             .append(Component.text(" A player has fallen").color(NamedTextColor.WHITE));
+    @Getter
+    private Component joinMessage = Component.empty();
+    @Getter
+    private Component leaveMessage = Component.empty();
 
     /**
      * Creates a new message consumer with default messages.
      */
     public MessageConsumer() {
     }
-
-    @Getter
-    private Component joinMessage = Component.empty();
-
-    @Getter
-    private Component leaveMessage = Component.empty();
 
     /**
      * Sets the death/elimination message.

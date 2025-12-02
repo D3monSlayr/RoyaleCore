@@ -21,13 +21,13 @@ import java.util.function.Consumer;
  * Represents a single Battle Royale game definition, including its unique ID,
  * scenarios, settings, lifecycle callbacks and current state.
  *
- * @param id               the unique identifier of this Battle Royale definition
- * @param scenarios        the list of scenarios that belong to this Battle Royale
- * @param settingsConsumer the settings associated with this Battle Royale
- * @param onStart          the callback to invoke when the Battle Royale is started
- * @param onStop           the callback to invoke when the Battle Royale is stopped
- * @param state            the current state of the Battle Royale
- * @param structureConsumer the structures associated with the Battle Royale
+ * @param id                   the unique identifier of this Battle Royale definition
+ * @param scenarios            the list of scenarios that belong to this Battle Royale
+ * @param settingsConsumer     the settings associated with this Battle Royale
+ * @param onStart              the callback to invoke when the Battle Royale is started
+ * @param onStop               the callback to invoke when the Battle Royale is stopped
+ * @param state                the current state of the Battle Royale
+ * @param structureConsumer    the structures associated with the Battle Royale
  * @param resourcepackConsumer the resource packs associated with the Battle Royale
  */
 public record BattleRoyale(
@@ -44,12 +44,12 @@ public record BattleRoyale(
     /**
      * Creates a new BattleRoyale instance and registers it in the legacy {@link BattleRoyaleEngine}.
      *
-     * @param id               the unique identifier of this Battle Royale definition
-     * @param scenarios        the list of scenarios that belong to this Battle Royale
-     * @param settingsConsumer the settings associated with this Battle Royale
-     * @param onStart          the callback to invoke when the Battle Royale is started
-     * @param onStop           the callback to invoke when the Battle Royale is stopped
-     * @param state            the initial state of the Battle Royale
+     * @param id                   the unique identifier of this Battle Royale definition
+     * @param scenarios            the list of scenarios that belong to this Battle Royale
+     * @param settingsConsumer     the settings associated with this Battle Royale
+     * @param onStart              the callback to invoke when the Battle Royale is started
+     * @param onStop               the callback to invoke when the Battle Royale is stopped
+     * @param state                the initial state of the Battle Royale
      * @param resourcepackConsumer the resource packs used for this Battle Royale
      */
     public BattleRoyale(

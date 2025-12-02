@@ -16,14 +16,14 @@ import java.util.function.Consumer;
  */
 public class BorderConsumer {
 
+    @Getter
+    private final Map<World, Consumer<WorldBorder>> borders = new HashMap<>();
+
     /**
      * Creates a new border consumer.
      */
     public BorderConsumer() {
     }
-
-    @Getter
-    private final Map<World, Consumer<WorldBorder>> borders = new HashMap<>();
 
     /**
      * Associates a world with a border configuration callback.
