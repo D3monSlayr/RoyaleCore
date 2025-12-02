@@ -13,7 +13,5 @@ out/
 !**/src/test/**/out/
 
 # Royale Core
-build/
-!build/docs/javadoc
 annotations/
 module-info.java

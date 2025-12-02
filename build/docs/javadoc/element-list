@@ -1,0 +1,12 @@
+dev.royalcore
+dev.royalcore.annotations
+dev.royalcore.api.br
+dev.royalcore.api.consumer
+dev.royalcore.api.data
+dev.royalcore.api.engine
+dev.royalcore.api.enums
+dev.royalcore.api.errors
+dev.royalcore.api.item
+dev.royalcore.api.registries
+dev.royalcore.api.scenario
+dev.royalcore.api.utils
