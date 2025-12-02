@@ -1,11 +1,10 @@
-### Gradle ###
+# Gradle
 .gradle
 build/
-!build/docs/javadoc
 !gradle/wrapper/gradle-wrapper.jar
 .kotlin
 
-### IntelliJ IDEA ###
+# IntelliJ IDEA
 .idea
 *.iws
 *.iml
@@ -14,9 +13,8 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
-### Royale Core ###
+# Royale Core
 **/build/
-annotation/
-impl/
-internal/
+!build/docs/javadoc
+annotations/
 module-info.java
