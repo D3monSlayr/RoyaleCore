@@ -1,6 +1,7 @@
 ### Gradle ###
 .gradle
 build/
+!build/docs/javadoc
 !gradle/wrapper/gradle-wrapper.jar
 .kotlin
 

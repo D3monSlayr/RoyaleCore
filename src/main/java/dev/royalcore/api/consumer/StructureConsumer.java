@@ -31,11 +31,16 @@ import static dev.royalcore.api.utils.SchematicUtils.getRandomInRange;
  *     <li>Tracking per-schematic vertical placement constraints (minY, maxY).</li>
  *     <li>Finding suitable locations and pasting the loaded schematics into a world.</li>
  * </ul>
- * <p>
  *
  */
 @Experimental
 public class StructureConsumer {
+
+    /**
+     * Default constructor
+     */
+    public StructureConsumer() {
+    }
 
     private final Map<TrackedSchematic, Double> schematics = new LinkedHashMap<>();
 

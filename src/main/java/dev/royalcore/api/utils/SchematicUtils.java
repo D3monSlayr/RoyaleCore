@@ -1,16 +1,21 @@
 package dev.royalcore.api.utils;
 
-import dev.royalcore.Main;
-import dev.royalcore.api.data.Config;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.util.Random;
 
+/**
+ * Holds some utility methods for the {@link dev.royalcore.api.consumer.StructureConsumer}
+ */
 public class SchematicUtils {
 
-    static Config config = new Config("name", Main.getPlugin().getDataPath());
+    /**
+     * Default constructor.
+     */
+    public SchematicUtils() {
+    }
 
     private static final Random random = new Random();
 

@@ -11,10 +11,28 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Handles resource pack operations such as adding packs and sending them to players.
+ */
 public class ResourcepackConsumer {
 
-    List<ResourcePackInfo> resourcePacks = new ArrayList<>();
+    /**
+     * List of resource packs managed by this consumer.
+     */
+    private final List<ResourcePackInfo> resourcePacks = new ArrayList<>();
 
+    /**
+     * Default constructor
+     */
+    public ResourcepackConsumer() {
+    }
+
+    /**
+     * Adds a resource pack to the managed list.
+     *
+     * @param resourcePackInfo the resource pack to add
+     * @return Result.Ok() on success, or Result.Err() if null or duplicate
+     */
     public Result add(ResourcePackInfo resourcePackInfo) {
         if (resourcePackInfo == null)
             return Result.Err(Component.text("A resource pack returned null! It has been excluded."), false);
@@ -23,9 +41,13 @@ public class ResourcepackConsumer {
 
         resourcePacks.add(resourcePackInfo);
         return Result.Ok();
-
     }
 
+    /**
+     * Sends all resource packs as required to the target audience.
+     *
+     * @param target the audience to receive the resource packs
+     */
     public void sendPack(final @NotNull Audience target) {
         for (ResourcePackInfo resourcePack : resourcePacks) {
             final ResourcePackRequest request = ResourcePackRequest.resourcePackRequest()
@@ -38,6 +60,11 @@ public class ResourcepackConsumer {
         }
     }
 
+    /**
+     * Sends all resource packs as optional to the target audience.
+     *
+     * @param target the audience to receive the resource packs
+     */
     public void sendAsOptional(final @NotNull Audience target) {
         for (ResourcePackInfo resourcePack : resourcePacks) {
             final ResourcePackRequest request = ResourcePackRequest.resourcePackRequest()
@@ -49,5 +76,4 @@ public class ResourcepackConsumer {
             target.sendResourcePacks(request);
         }
     }
-
 }

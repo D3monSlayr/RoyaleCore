@@ -101,10 +101,11 @@ public class Config {
     }
 
     /**
-     * Checks if a field with the given name exists in this configuration.
+     * Checks if the given field exists in this configuration.
      *
-     * @param field the field to check
-     * @return {@code true} if the field exists, {@code false} otherwise
+     * @param field the field to check for existence
+     * @param <T> the type of the field's value
+     * @return true if the field exists, false otherwise
      */
     public <T> boolean exists(Field<T> field) {
         return getField(field) != null;
