@@ -1,4 +1,4 @@
-package dev.royalcore.api.db;
+package dev.royalcore.api.data;
 
 import com.google.gson.Gson;
 import org.bukkit.plugin.Plugin;

@@ -1,5 +1,7 @@
 package dev.royalcore.api.utils;
 
+import dev.royalcore.Main;
+import dev.royalcore.api.data.Config;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -7,6 +9,8 @@ import org.bukkit.block.Block;
 import java.util.Random;
 
 public class SchematicUtils {
+
+    static Config config = new Config("name", Main.getPlugin().getDataPath());
 
     private static final Random random = new Random();
 
