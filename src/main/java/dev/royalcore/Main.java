@@ -63,6 +63,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onEnable() {
         plugin = this;
+
         FailedBRRegistry.declare();
 
         RecipeRegistry.getRecipeRegistry().finish();

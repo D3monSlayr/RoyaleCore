@@ -5,52 +5,43 @@ import dev.royalcore.annotations.UnstableOnServerStart;
 import dev.royalcore.api.consumer.ResourcePackConsumer;
 import dev.royalcore.api.consumer.SettingsConsumer;
 import dev.royalcore.api.consumer.StructureConsumer;
+import dev.royalcore.api.consumer.WorldConsumer;
 import dev.royalcore.api.engine.BattleRoyaleEngine;
 import dev.royalcore.api.enums.BattleRoyaleState;
 import dev.royalcore.api.scenario.Scenario;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.function.Consumer;
 
 /**
  * Represents a single Battle Royale game definition, including its unique ID,
  * scenarios, settings, lifecycle callbacks and current state.
- *
- * @param id                   the unique identifier of this Battle Royale definition
- * @param scenarios            the list of scenarios that belong to this Battle Royale
- * @param settingsConsumer     the settings associated with this Battle Royale
- * @param onStart              the callback to invoke when the Battle Royale is started
- * @param onStop               the callback to invoke when the Battle Royale is stopped
- * @param state                the current state of the Battle Royale
- * @param structureConsumer    the structures associated with the Battle Royale
- * @param resourcepackConsumer the resource packs associated with the Battle Royale
  */
-public record BattleRoyale(
-        UUID id,
-        List<Scenario> scenarios,
-        SettingsConsumer settingsConsumer,
-        Runnable onStart,
-        Runnable onStop,
-        BattleRoyaleState state,
-        ResourcePackConsumer resourcepackConsumer,
-        StructureConsumer structureConsumer
-) {
+public final class BattleRoyale {
+    private final UUID id;
+    private final List<Scenario> scenarios;
+    private final SettingsConsumer settingsConsumer;
+    private final Runnable onStart;
+    private final Runnable onStop;
+    private final ResourcePackConsumer resourcepackConsumer;
+    private final StructureConsumer structureConsumer;
+    private final WorldConsumer worldConsumer;
+    private BattleRoyaleState state;
 
     /**
      * Creates a new BattleRoyale instance and registers it in the legacy {@link BattleRoyaleEngine}.
      *
      * @param id                   the unique identifier of this Battle Royale definition
-     * @param scenarios            the list of scenarios that belong to this Battle Royale
-     * @param settingsConsumer     the settings associated with this Battle Royale
-     * @param onStart              the callback to invoke when the Battle Royale is started
-     * @param onStop               the callback to invoke when the Battle Royale is stopped
+     * @param scenarios            the list of scenarios that belong to this Battle Royale (unmodifiable view)
+     * @param settingsConsumer     the settings consumer for configuring Battle Royale settings
+     * @param onStart              the callback invoked when the Battle Royale starts
+     * @param onStop               the callback invoked when the Battle Royale stops
      * @param state                the initial state of the Battle Royale
-     * @param resourcepackConsumer the resource packs used for this Battle Royale
+     * @param resourcepackConsumer the resource pack consumer for managing client resource packs
+     * @param structureConsumer    the structure consumer for world generation and placement
+     * @param worldConsumer        the world consumer for world creation and management
      */
     public BattleRoyale(
             UUID id,
@@ -60,16 +51,18 @@ public record BattleRoyale(
             Runnable onStop,
             BattleRoyaleState state,
             ResourcePackConsumer resourcepackConsumer,
-            StructureConsumer structureConsumer
+            StructureConsumer structureConsumer,
+            WorldConsumer worldConsumer
     ) {
         this.id = id;
-        this.scenarios = scenarios;
+        this.scenarios = Collections.unmodifiableList(new ArrayList<>(scenarios));
         this.settingsConsumer = settingsConsumer;
         this.onStart = onStart;
         this.onStop = onStop;
         this.state = state;
         this.resourcepackConsumer = resourcepackConsumer;
         this.structureConsumer = structureConsumer;
+        this.worldConsumer = worldConsumer;
 
         BattleRoyaleEngine.getBattleRoyaleEngine().register(this);
     }
@@ -100,31 +93,127 @@ public record BattleRoyale(
 
     /**
      * Exposes the configured {@code onStart} callback to external consumers.
+     * <p>
+     * Marked as unstable during server startup due to potential registration timing issues.
      *
-     * @param onStart a consumer that receives the current {@code onStart} runnable
+     * @param consumer a consumer that receives the current {@code onStart} runnable
      */
     @UnstableOnServerStart
-    public void onStart(Consumer<Runnable> onStart) {
-        onStart.accept(this.onStart);
+    public void onStart(Consumer<Runnable> consumer) {
+        consumer.accept(this.onStart);
+    }
+
+    /**
+     * Exposes the configured {@code onStop} callback to external consumers.
+     * <p>
+     * Marked as unstable during server startup due to potential registration timing issues.
+     *
+     * @param consumer a consumer that receives the current {@code onStop} runnable
+     */
+    @UnstableOnServerStart
+    public void onStop(Consumer<Runnable> consumer) {
+        consumer.accept(this.onStop);
+    }
+
+    // Record-style getters (consistent with modern Java conventions)
+    public UUID id() {
+        return id;
+    }
+
+    public List<Scenario> scenarios() {
+        return scenarios;
+    }
+
+    public SettingsConsumer settingsConsumer() {
+        return settingsConsumer;
+    }
+
+    public Runnable onStart() {
+        return onStart;
+    }
+
+    public Runnable onStop() {
+        return onStop;
+    }
+
+    public BattleRoyaleState state() {
+        return state;
+    }
+
+    public ResourcePackConsumer resourcepackConsumer() {
+        return resourcepackConsumer;
+    }
+
+    public StructureConsumer structureConsumer() {
+        return structureConsumer;
+    }
+
+    public WorldConsumer worldConsumer() {
+        return worldConsumer;
+    }
+
+    /**
+     * Updates the current state of this Battle Royale.
+     *
+     * @param state the new state to set
+     */
+    public void state(BattleRoyaleState state) {
+        this.state = state;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        var that = (BattleRoyale) obj;
+        return Objects.equals(this.id, that.id) &&
+                Objects.equals(this.scenarios, that.scenarios) &&
+                Objects.equals(this.settingsConsumer, that.settingsConsumer) &&
+                Objects.equals(this.onStart, that.onStart) &&
+                Objects.equals(this.onStop, that.onStop) &&
+                Objects.equals(this.state, that.state) &&
+                Objects.equals(this.resourcepackConsumer, that.resourcepackConsumer) &&
+                Objects.equals(this.structureConsumer, that.structureConsumer) &&
+                Objects.equals(this.worldConsumer, that.worldConsumer);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, scenarios, settingsConsumer, onStart, onStop, state, resourcepackConsumer, structureConsumer, worldConsumer);
+    }
+
+    @Override
+    public String toString() {
+        return "BattleRoyale[" +
+                "id=" + id + ", " +
+                "scenarios=" + scenarios + ", " +
+                "settingsConsumer=" + settingsConsumer + ", " +
+                "onStart=" + onStart + ", " +
+                "onStop=" + onStop + ", " +
+                "state=" + state + ", " +
+                "resourcepackConsumer=" + resourcepackConsumer + ", " +
+                "structureConsumer=" + structureConsumer + ", " +
+                "worldConsumer=" + worldConsumer + ']';
     }
 
     /**
      * Builder for {@link BattleRoyale} instances, providing a fluent API
-     * to configure scenarios, settings, and lifecycle callbacks.
+     * to configure scenarios, settings, resource packs, structures, worlds,
+     * and lifecycle callbacks.
      */
     public static class BattleRoyaleBuilder {
 
         private final UUID id;
         private final List<Scenario> scenarios = new ArrayList<>();
-
         private final SettingsConsumer settings = new SettingsConsumer();
         private final ResourcePackConsumer resourcepacks = new ResourcePackConsumer();
         private final StructureConsumer structures = new StructureConsumer();
-
-        private BattleRoyaleState state = BattleRoyaleState.NOT_STARTED;
-
-        private Runnable onStart = () -> state = BattleRoyaleState.WAITING;
-        private Runnable onStop = () -> state = BattleRoyaleState.ENDED;
+        private final WorldConsumer world = new WorldConsumer();
+        private final BattleRoyaleState state = BattleRoyaleState.NOT_STARTED;
+        private Runnable onStart = () -> {
+        };
+        private Runnable onStop = () -> {
+        };
 
         /**
          * Creates a builder for a BattleRoyale with the given ID.
@@ -136,7 +225,7 @@ public record BattleRoyale(
         }
 
         /**
-         * Adds scenarios to this Battle Royale definition.
+         * Adds one or more scenarios to this Battle Royale definition.
          *
          * @param scenarios one or more scenarios to include
          * @return this builder instance for chaining
@@ -147,8 +236,18 @@ public record BattleRoyale(
         }
 
         /**
+         * Configures world settings for this Battle Royale.
          *
-         * Configures resourcepacks for this Battle Royale via the provided consumer.
+         * @param worldSettings a consumer that configures the internal {@link WorldConsumer}
+         * @return this builder instance for chaining
+         */
+        public BattleRoyaleBuilder withWorldSettings(Consumer<WorldConsumer> worldSettings) {
+            worldSettings.accept(world);
+            return this;
+        }
+
+        /**
+         * Configures resource packs for this Battle Royale.
          *
          * @param resourcePacksConsumer a consumer that mutates the internal {@link ResourcePackConsumer}
          * @return this builder instance for chaining
@@ -159,18 +258,18 @@ public record BattleRoyale(
         }
 
         /**
-         * Configures settings for this Battle Royale via the provided consumer.
+         * Configures settings for this Battle Royale.
          *
-         * @param settings a consumer that mutates the internal {@link SettingsConsumer}
+         * @param settingsConsumer a consumer that mutates the internal {@link SettingsConsumer}
          * @return this builder instance for chaining
          */
-        public BattleRoyaleBuilder withSettings(Consumer<SettingsConsumer> settings) {
-            settings.accept(this.settings);
+        public BattleRoyaleBuilder withSettings(Consumer<SettingsConsumer> settingsConsumer) {
+            settingsConsumer.accept(this.settings);
             return this;
         }
 
         /**
-         * Sets the {@code onStart} callback that will be invoked when the Battle Royale starts.
+         * Sets the {@code onStart} callback invoked when the Battle Royale starts.
          *
          * @param runnable the start callback
          * @return this builder instance for chaining
@@ -181,7 +280,7 @@ public record BattleRoyale(
         }
 
         /**
-         * Sets the {@code onStop} callback that will be invoked when the Battle Royale stops.
+         * Sets the {@code onStop} callback invoked when the Battle Royale stops.
          *
          * @param runnable the stop callback
          * @return this builder instance for chaining
@@ -192,42 +291,42 @@ public record BattleRoyale(
         }
 
         /**
-         * Allows external code to access and modify the currently configured
-         * {@code onStart} callback.
+         * Provides access to the current {@code onStart} callback for modification.
          *
-         * @param runnable a consumer that receives the current start callback
+         * @param consumer a consumer that receives and can modify the current start callback
          * @return this builder instance for chaining
          */
-        public BattleRoyaleBuilder onStart(Consumer<Runnable> runnable) {
-            runnable.accept(onStart);
+        public BattleRoyaleBuilder onStart(Consumer<Runnable> consumer) {
+            consumer.accept(onStart);
             return this;
         }
 
         /**
-         * Allows external code to access and modify the currently configured
-         * {@code onStop} callback.
+         * Provides access to the current {@code onStop} callback for modification.
          *
-         * @param runnable a consumer that receives the current stop callback
+         * @param consumer a consumer that receives and can modify the current stop callback
          * @return this builder instance for chaining
          */
-        public BattleRoyaleBuilder onStop(Consumer<Runnable> runnable) {
-            runnable.accept(onStop);
+        public BattleRoyaleBuilder onStop(Consumer<Runnable> consumer) {
+            consumer.accept(onStop);
             return this;
         }
 
         /**
-         * Configures structures for this Battle Royale via the provided consumer.
+         * Configures structures for this Battle Royale.
          *
-         * @param structures a consumer that mutates the internal {@link StructureConsumer}
+         * @param structuresConsumer a consumer that mutates the internal {@link StructureConsumer}
          * @return this builder instance for chaining
          */
-        public BattleRoyaleBuilder withStructures(Consumer<StructureConsumer> structures) {
-            structures.accept(this.structures);
+        public BattleRoyaleBuilder withStructures(Consumer<StructureConsumer> structuresConsumer) {
+            structuresConsumer.accept(this.structures);
             return this;
         }
 
         /**
-         * Builds a {@link BattleRoyale} instance with the current builder state.
+         * Builds and returns a new {@link BattleRoyale} instance with the current configuration.
+         * <p>
+         * Logs a warning if the ID is null and generates a random UUID as fallback.
          *
          * @return a new BattleRoyale instance
          */
@@ -237,12 +336,9 @@ public record BattleRoyale(
                         Component.text("The ID of a Battle Royale is null! Defaulted to a random ID"),
                         new IllegalStateException()
                 );
-                return new BattleRoyale(UUID.randomUUID(), scenarios, settings, onStart, onStop, state, resourcepacks, structures);
+                return new BattleRoyale(UUID.randomUUID(), scenarios, settings, onStart, onStop, state, resourcepacks, structures, world);
             }
-
-            return new BattleRoyale(id, scenarios, settings, onStart, onStop, state, resourcepacks, structures);
+            return new BattleRoyale(id, scenarios, settings, onStart, onStop, state, resourcepacks, structures, world);
         }
-
     }
-
 }

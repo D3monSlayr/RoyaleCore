@@ -2,17 +2,25 @@ package dev.royalcore.api.engine;
 
 import dev.royalcore.Main;
 import dev.royalcore.annotations.Experimental;
+import dev.royalcore.api.br.BattleRoyale;
 import dev.royalcore.api.consumer.SchedulerConsumer;
+import dev.royalcore.api.consumer.WorldConsumer;
+import dev.royalcore.api.enums.BattleRoyaleState;
 import dev.royalcore.api.errors.Result;
 import dev.royalcore.api.scenario.Scenario;
+import dev.royalcore.api.start.Queue;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.entity.Player;
 
 import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -36,6 +44,50 @@ public class NewEngine {
      * the shared instance.
      */
     private NewEngine() {
+    }
+
+    public Result randomlySpawn(Queue queue, WorldConsumer worldConsumer) {
+        for (UUID id : queue.getPlayers()) {
+            Player player = Bukkit.getPlayer(id);
+            if (player != null && player.isOnline()) {
+                int spawnloc = ThreadLocalRandom.current().nextInt(1, queue.getPlayers().size() + 1);
+                Location location = worldConsumer.getSpawnLocations().get(spawnloc);
+
+                if (location != null) {
+                    player.teleport(location);
+                } else {
+                    return Result.Err(Component.text("Found a null location!"), false);
+                }
+
+            }
+        }
+        return Result.Ok();
+    }
+
+    public Result addToOnStart(BattleRoyale battleRoyale) {
+
+        battleRoyale.onStart(onStart -> {
+            battleRoyale.state(BattleRoyaleState.WAITING);
+
+            Queue queue = Queue.queue(Bukkit.getOnlinePlayers(), players -> {
+                battleRoyale.resourcepackConsumer().sendPack(players);
+                battleRoyale.structureConsumer().spawnAll(battleRoyale.worldConsumer().getBrWorld());
+            }, queueAct -> {
+                randomlySpawn(queueAct, battleRoyale.worldConsumer());
+            });
+
+        });
+
+        return Result.Ok(Component.text("Successfully added valid onStart actions to Battle Royale " + battleRoyale.id()), true);
+    }
+
+    public Result addToStop(BattleRoyale battleRoyale) {
+
+        battleRoyale.onStop(onStop -> {
+            battleRoyale.state(BattleRoyaleState.ENDED);
+        });
+
+        return Result.Ok(Component.text("Successfully added valid onStop actions to Battle Royale " + battleRoyale.id()), true);
     }
 
     /**
