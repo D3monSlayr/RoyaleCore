@@ -4,13 +4,19 @@ import dev.royalcore.Main;
 import dev.royalcore.annotations.Experimental;
 import dev.royalcore.api.br.BattleRoyale;
 import dev.royalcore.api.consumer.SchedulerConsumer;
+import dev.royalcore.api.consumer.SettingsConsumer;
 import dev.royalcore.api.consumer.WorldConsumer;
 import dev.royalcore.api.enums.BattleRoyaleState;
 import dev.royalcore.api.errors.Result;
+import dev.royalcore.api.registries.ListenerRegistry;
 import dev.royalcore.api.scenario.Scenario;
 import dev.royalcore.api.start.Queue;
+import dev.royalcore.internal.lifesteal.LifestealListener;
+import dev.royalcore.internal.start.MoveListener;
 import lombok.Getter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.NamedTextColor;
+import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -64,6 +70,59 @@ public class NewEngine {
         return Result.Ok();
     }
 
+    public void runStart(Queue queue) {
+        MoveListener.setCanMove(false);
+
+        for (UUID uuid : queue.getPlayers()) {
+
+            Player player = Bukkit.getPlayer(uuid);
+
+            if (player == null) continue;
+            if (!player.isOnline()) continue;
+
+            player.showTitle(Title.title(Component.text("5").color(NamedTextColor.DARK_RED), Component.text(""), 1, 2, 1));
+            player.showTitle(Title.title(Component.text("4").color(NamedTextColor.RED), Component.text(""), 1, 2, 1));
+            player.showTitle(Title.title(Component.text("3").color(NamedTextColor.GOLD), Component.text(""), 1, 2, 1));
+            player.showTitle(Title.title(Component.text("2").color(NamedTextColor.YELLOW), Component.text(""), 1, 2, 1));
+            player.showTitle(Title.title(Component.text("1").color(NamedTextColor.DARK_GREEN), Component.text(""), 1, 2, 1));
+
+            player.showTitle(Title.title(Component.text("GO!").color(NamedTextColor.GREEN), Component.text(""), 1, 2, 1));
+
+        }
+
+        MoveListener.setCanMove(true);
+
+    }
+
+    public Result validateSettings(BattleRoyale battleRoyale) {
+
+        SettingsConsumer settingsConsumer = battleRoyale.settingsConsumer();
+
+        Object lifesteal = settingsConsumer.getSetting(SettingsConsumer.Setting.LIFESTEAL);
+        Object maxheart = settingsConsumer.getSetting(SettingsConsumer.Setting.MAX_LIFESTEAL_HEARTS);
+        Object grace = settingsConsumer.getSetting(SettingsConsumer.Setting.GRACE);
+        Object latejoinbehaviour = settingsConsumer.getSetting(SettingsConsumer.Setting.LATE_JOIN_BEHAVIOUR);
+
+        if (lifesteal instanceof Boolean lf && lf) {
+
+            LifestealListener lifestealListener = new LifestealListener();
+            ListenerRegistry.getListenerRegistry().register(lifestealListener);
+            lifestealListener.setLifesteal(true);
+
+            if (maxheart instanceof Double mh) {
+                lifestealListener.setMaxHearts(mh);
+            }
+
+        }
+
+        if (grace instanceof Duration duration) {
+
+        }
+
+
+        return Result.Ok();
+    }
+
     public Result addToOnStart(BattleRoyale battleRoyale) {
 
         battleRoyale.onStart(onStart -> {
@@ -74,6 +133,7 @@ public class NewEngine {
                 battleRoyale.structureConsumer().spawnAll(battleRoyale.worldConsumer().getBrWorld());
             }, queueAct -> {
                 randomlySpawn(queueAct, battleRoyale.worldConsumer());
+                runStart(queueAct);
             });
 
         });
@@ -137,11 +197,14 @@ public class NewEngine {
                 continue;
             }
 
-            return Result.Err(
+            Result.Err(
                     Component.text("Failed to schedule a task for Scenario '" + scenario.name() + "' because it contained an invalid value!"),
                     new IllegalStateException("Invalid schedule window in Scenario '" + scenario.name() + "'."),
                     false
             );
+
+            continue;
+
         }
 
         return Result.Ok(Component.text("Successfully validated all schedules"), true);

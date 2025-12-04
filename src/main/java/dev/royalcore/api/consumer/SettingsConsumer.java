@@ -18,6 +18,7 @@ public class SettingsConsumer {
         settings.put(Setting.LIFESTEAL, true);
         settings.put(Setting.GRACE, Duration.ofMinutes(20));
         settings.put(Setting.LATE_JOIN_BEHAVIOUR, LateJoinHandling.ALLOW_PARTICIPATION);
+        settings.put(Setting.MAX_LIFESTEAL_HEARTS, 40);
     }
 
     /**
@@ -27,6 +28,10 @@ public class SettingsConsumer {
      */
     public void lifesteal(boolean bool) {
         settings.replace(Setting.LIFESTEAL, bool);
+    }
+
+    public void maxLifestealHearts(double max) {
+        settings.replace(Setting.MAX_LIFESTEAL_HEARTS, max);
     }
 
     /**
@@ -65,6 +70,8 @@ public class SettingsConsumer {
          * Whether lifesteal mechanics are enabled.
          */
         LIFESTEAL,
+
+        MAX_LIFESTEAL_HEARTS,
         /**
          * Grace period duration.
          */
@@ -72,7 +79,10 @@ public class SettingsConsumer {
         /**
          * Behaviour for late-joining players.
          */
-        LATE_JOIN_BEHAVIOUR
+        LATE_JOIN_BEHAVIOUR,
+
+        // REVIVAL_HEART - later...
+        // TEAMS - later...
     }
 
     /**
